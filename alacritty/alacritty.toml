@@ -1,0 +1,42 @@
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 11.0
+
+[font.bold]
+family = "MonoLisa Nerd Font"
+
+[font.bold_italic]
+family = "MonoLisa Nerd Font"
+
+[font.italic]
+family = "MonoLisa Nerd Font"
+
+[font.normal]
+family = "MonoLisa Nerd Font"
+
+[font.offset]
+x = 0
+y = 7
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[window]
+option_as_alt = "Both"
+
+[general]
+import = ["~/.config/alacritty/nord.toml"]
