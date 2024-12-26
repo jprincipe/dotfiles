@@ -39,4 +39,4 @@ mods = "Control"
 option_as_alt = "Both"
 
 [general]
-import = ["~/.config/alacritty/nord.toml"]
+import = ["~/.config/alacritty/catppuccin-frappe.toml"]

@@ -1,10 +1,16 @@
 return {
-  { "arcticicestudio/nord-vim" },
-
+  {
+    "catppuccin/nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("catppuccin-frappe")
+    end,
+  },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "nord",
+      colorscheme = "catppuccin-frappe",
     },
   },
 }
