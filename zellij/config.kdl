@@ -260,8 +260,7 @@ load_plugins {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-// theme "nord"
-theme "catppuccin-frappe"
+theme "nord"
  
 // Choose the base input mode of zellij.
 // Default: normal
