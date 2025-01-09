@@ -1,24 +1,23 @@
 return
 -- Kanagawa
-{
-  "rebelot/kanagawa.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require("kanagawa").load("wave")
-  end,
-}
--- NORD
 -- {
---   { "arcticicestudio/nord-vim" },
---
---   {
---     "LazyVim/LazyVim",
---     opts = {
---       colorscheme = "nord",
---     },
---   },
+--   "rebelot/kanagawa.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("kanagawa").load("wave")
+--   end,
 -- }
+--  NORD
+{
+  { "arcticicestudio/nord-vim" },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "nord",
+    },
+  },
+}
 --   { "Mofiqul/dracula.nvim" },
 --
 --   -- Configure LazyVim to load dracula
@@ -56,4 +55,4 @@ return
 --
 --     vim.cmd.colorscheme("catppuccin-frappe")
 --   end,
--- },
+-- }
