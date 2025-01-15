@@ -1,6 +1,4 @@
-theme = "Ayu Mirage" 
-# theme = nord 
-# theme = catppuccin-frappe
+theme = "Kanagawa Wave" 
 font-family = "MonoLisa Nerd Font"
 font-size = 12
 font-thicken = true
