@@ -1,6 +1,8 @@
 theme = "Kanagawa Wave" 
 font-family = "MonoLisa Nerd Font"
 font-size = 12
+macos-titlebar-style = tabs
+keybind = global:super+/=toggle_quick_terminal
 font-thicken = true
 font-feature = ss02
 font-feature = ss03 
