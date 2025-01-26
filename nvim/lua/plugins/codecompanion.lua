@@ -18,7 +18,7 @@ return {
             name = "deepseek", -- Give this adapter a different name to differentiate it from the default ollama adapter
             schema = {
               model = {
-                default = "deepseek-coder:6.7b-base",
+                default = "deepseek-r1:8b",
               },
               -- num_ctx = {
               --   default = 16384,
