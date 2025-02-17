@@ -34,9 +34,9 @@ return {
         chat = {
           adapter = "anthropic",
         },
-        inline = {
-          adapter = "anthropic",
-        },
+        -- inline = {
+        --   adapter = "anthropic",
+        -- },
       },
     })
 

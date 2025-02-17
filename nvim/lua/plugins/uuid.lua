@@ -5,7 +5,7 @@ return {
   config = function()
     local uuid = require("uuid-nvim")
     uuid.setup({
-      case = "upper",
+      case = "lower",
       quotes = "none",
       insert = "before",
     })
