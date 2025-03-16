@@ -1,22 +1,22 @@
 return
 --  Kanagawa
-{
-  "rebelot/kanagawa.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require("kanagawa").load("wave")
-  end,
-}
--- Tokyonight
 -- {
---   "folke/tokyonight.nvim",
+--   "rebelot/kanagawa.nvim",
 --   lazy = false,
 --   priority = 1000,
 --   config = function()
---     vim.cmd.colorscheme("tokyonight-storm")
+--     require("kanagawa").load("wave")
 --   end,
 -- }
+-- Tokyonight
+{
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme("tokyonight-storm")
+  end,
+}
 -- Ayu
 -- {
 --   "Shatur/neovim-ayu",
