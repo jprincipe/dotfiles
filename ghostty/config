@@ -1,6 +1,9 @@
+
 # theme = "Kanagawa Wave" 
 # theme = "tokyonight-day" 
-theme = "tokyonight-storm"
+# theme = "tokyonight-storm"
+# theme = "nord"
+theme = catppuccin-frappe
 font-family = "MonoLisa Nerd Font"
 font-size = 12
 macos-titlebar-style = tabs

@@ -12,24 +12,6 @@ return {
   },
   config = function()
     require("codecompanion").setup({
-      adapters = {
-        deepseek = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            name = "deepseek", -- Give this adapter a different name to differentiate it from the default ollama adapter
-            schema = {
-              model = {
-                default = "deepseek-r1:8b",
-              },
-              -- num_ctx = {
-              --   default = 16384,
-              -- },
-              -- num_predict = {
-              --   default = -1,
-              -- },
-            },
-          })
-        end,
-      },
       strategies = {
         chat = {
           adapter = "anthropic",
