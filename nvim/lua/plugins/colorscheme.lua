@@ -1,41 +1,41 @@
 return
 -- catppuccin
-{
-  "catppuccin/nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require("catppuccin").setup({
-      flavour = "frappe", -- latte, frappe, macchiato, mocha
-      styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-        comments = { "italic" }, -- Change the style of comments
-        conditionals = { "italic" },
-        loops = {},
-        functions = {},
-        keywords = { "italic" },
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-        -- miscs = {}, -- Uncomment to turn off hard-coded styles
-      },
-    })
-
-    vim.cmd.colorscheme("catppuccin-frappe")
-  end,
-}
---  Kanagawa
 -- {
---   "rebelot/kanagawa.nvim",
+--   "catppuccin/nvim",
 --   lazy = false,
 --   priority = 1000,
 --   config = function()
---     require("kanagawa").load("wave")
+--     require("catppuccin").setup({
+--       flavour = "frappe", -- latte, frappe, macchiato, mocha
+--       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+--         comments = { "italic" }, -- Change the style of comments
+--         conditionals = { "italic" },
+--         loops = {},
+--         functions = {},
+--         keywords = { "italic" },
+--         strings = {},
+--         variables = {},
+--         numbers = {},
+--         booleans = {},
+--         properties = {},
+--         types = {},
+--         operators = {},
+--         -- miscs = {}, -- Uncomment to turn off hard-coded styles
+--       },
+--     })
+--
+--     vim.cmd.colorscheme("catppuccin-frappe")
 --   end,
 -- }
+--  Kanagawa
+{
+  "rebelot/kanagawa.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("kanagawa").load("wave")
+  end,
+}
 -- Nord
 -- {
 --   "gbprod/nord.nvim",
