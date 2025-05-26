@@ -1,9 +1,8 @@
-
-# theme = "Kanagawa Wave" 
+theme = "Kanagawa Wave" 
 # theme = "tokyonight-day" 
 # theme = "tokyonight-storm"
 # theme = "nord"
-theme = catppuccin-frappe
+# theme = catppuccin-frappe
 # font-family = "MonoLisa Nerd Font"
 font-family = "Maple Mono NF"
 font-size = 12
