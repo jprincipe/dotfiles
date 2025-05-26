@@ -17,3 +17,12 @@ map("n", "<leader>cx", function()
   vim.cmd(":%!xmllint --format -")
   vim.fn.setpos(".", cursor_pos)
 end, { desc = "Format XML with xmllint" })
+
+-- local wk = require("which-key")
+-- wk.add({
+--   { "<leader>m", group = "marks" }, -- group
+-- })
+--
+map("n", "<leader>ml", function()
+  vim.keymap.set("n", "<leader>ml", require("recall.snacks").pick, { noremap = true, silent = true })
+end, { desc = "list" })
