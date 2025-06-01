@@ -17,15 +17,8 @@ return {
       map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
       map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
       map("t", "<C-\\>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
-
-      -- Register terminal group with which-key
-      local wk = require("which-key")
-      wk.add({
-        { "<leader>t", group = "terminal" },
-      })
     end,
     keys = {
-      { "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "Toggle floating terminal" },
       { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Horizontal terminal" },
       { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Vertical terminal" },
       { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Floating terminal" },

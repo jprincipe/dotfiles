@@ -21,6 +21,7 @@ end, { desc = "Format XML with xmllint" })
 local wk = require("which-key")
 wk.add({
   { "<leader>m", group = "marks" },
+  { "<leader>t", group = "terminal" },
 })
 --
 map("n", "<leader>ml", function()
