@@ -11,3 +11,4 @@ keybind = global:super+/=toggle_quick_terminal
 font-thicken = true
 font-feature = calt
 font-feature = cv01
+keybind = shift+enter=text:\n
