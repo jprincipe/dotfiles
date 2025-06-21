@@ -23,7 +23,11 @@ wk.add({
   { "<leader>m", group = "marks" },
   { "<leader>t", group = "terminal" },
 })
---
+
 map("n", "<leader>ml", function()
   vim.keymap.set("n", "<leader>ml", require("recall.snacks").pick, { noremap = true, silent = true })
 end, { desc = "list" })
+
+-- Navigate between splits
+map("n", "<C-]>", "<C-w>w", { desc = "Move to next split" })
+map("n", "<C-[>", "<C-w>W", { desc = "Move to previous split" })
