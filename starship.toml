@@ -1,19 +1,15 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[](red)\
+[](sapphire)\
 $os\
 $username\
-[](bg:peach fg:red)\
+[](bg:green fg:sapphire)\
 $directory\
-[](bg:yellow fg:peach)\
+[](bg:yellow fg:green)\
 $git_branch\
 $git_status\
-[](fg:yellow bg:green)\
-$elixir\
-[](fg:green bg:sapphire)\
-$conda\
-[ ](fg:sapphire)\
+[ ](fg:yellow)\
 [](fg:lavender)\
 $time\
 [ ](fg:lavender)\
@@ -26,7 +22,7 @@ palette = 'catppuccin_frappe'
 
 [os]
 disabled = false
-style = "bg:red fg:crust"
+style = "bg:sapphire fg:crust"
 
 [os.symbols]
 Windows = ""
@@ -51,12 +47,12 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = true
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
+style_user = "bg:sapphire fg:crust"
+style_root = "bg:sapphire fg:crust"
 format = '[ $user]($style)'
 
 [directory]
-style = "bg:peach fg:crust"
+style = "bg:green fg:crust"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
