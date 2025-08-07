@@ -1,6 +1,7 @@
 # themes
 # theme = "nordic"
-theme = "Kanagawa Wave"
+theme = "kanagawa-paper"
+background = "#2A2A37"
 # theme = "tokyonight-day" 
 # theme = "tokyonight-storm"
 # theme = nord
