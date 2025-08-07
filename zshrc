@@ -1,14 +1,6 @@
 ######################################
-# zsh & oh-my-zsh config
+# zsh config
 ######################################
-
-# Path to your Oh My Zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# update automatically without asking
-zstyle ':omz:update' mode auto
-
-DISABLE_UNTRACKED_FILES_DIRTY="true"
 HISTFILE=$HOME/.zhistory
 SAVEHIST=1000
 HISTSIZE=999
@@ -25,9 +17,9 @@ bindkey "\e[1;3C" forward-word      # ⌥→
 bindkey "^[[1;9D" beginning-of-line # cmd+←
 bindkey "^[[1;9C" end-of-line       # cmd+→
 
-plugins=(git dotenv)
-
-source $ZSH/oh-my-zsh.sh
+# Enable completion system
+autoload -Uz compinit
+compinit
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -64,3 +56,6 @@ export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
 
 . "$HOME/.local/bin/env"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/jprincipe/.docker/completions $fpath)
+# End of Docker CLI completions
