@@ -12,34 +12,19 @@ return
 --   end,
 -- }
 -- Kanagawa Paper
--- {
---   "thesimonho/kanagawa-paper.nvim",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     require("kanagawa-paper").setup({
---       flavour = "frappe", -- latte, frappe, macchiato, mocha
---       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
---         comments = { "italic" }, -- Change the style of comments
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = { "italic" },
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---         -- miscs = {}, -- Uncomment to turn off hard-coded styles
---       },
---     })
---
---     vim.cmd.colorscheme("kanagawa-paper-canvas")
---   end,
---   -- opts = { ... },
--- }
+{
+  "thesimonho/kanagawa-paper.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("kanagawa-paper").setup({
+      -- transparent = true,
+    })
+
+    vim.cmd.colorscheme("kanagawa-paper")
+  end,
+  -- opts = { ... },
+}
 -- catppuccin
 -- {
 --   "catppuccin/nvim",
@@ -78,14 +63,14 @@ return
 --   end,
 -- }
 -- Nordic
-{
-  "AlexvZyl/nordic.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require("nordic").load()
-  end,
-}
+-- {
+--   "AlexvZyl/nordic.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("nordic").load()
+--   end,
+-- }
 -- Nord
 -- {
 --   "gbprod/nord.nvim",
