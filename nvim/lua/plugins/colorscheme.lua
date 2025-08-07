@@ -17,11 +17,13 @@ return
   lazy = false,
   priority = 1000,
   config = function()
-    require("kanagawa-paper").setup({
-      -- transparent = true,
-    })
-
     vim.cmd.colorscheme("kanagawa-paper")
+
+    -- Set custom background colors
+    local colors = require("kanagawa-paper.colors").setup()
+    vim.api.nvim_set_hl(0, "Normal", { bg = colors.theme.ui.bg_p1 }) -- Float bg for editor
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.theme.ui.bg }) -- Standard bg for dialogs
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = colors.theme.ui.bg })
   end,
   -- opts = { ... },
 }
