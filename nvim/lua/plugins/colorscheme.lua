@@ -12,49 +12,49 @@ return
 --   end,
 -- }
 -- Kanagawa Paper
-{
-  "thesimonho/kanagawa-paper.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    vim.cmd.colorscheme("kanagawa-paper")
-
-    -- Set custom background colors
-    local colors = require("kanagawa-paper.colors").setup()
-    vim.api.nvim_set_hl(0, "Normal", { bg = colors.theme.ui.bg_p1 }) -- Float bg for editor
-    vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.theme.ui.bg }) -- Standard bg for dialogs
-    vim.api.nvim_set_hl(0, "FloatBorder", { bg = colors.theme.ui.bg })
-  end,
-  -- opts = { ... },
-}
--- catppuccin
 -- {
---   "catppuccin/nvim",
+--   "thesimonho/kanagawa-paper.nvim",
 --   lazy = false,
 --   priority = 1000,
 --   config = function()
---     require("catppuccin").setup({
---       flavour = "frappe", -- latte, frappe, macchiato, mocha
---       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
---         comments = { "italic" }, -- Change the style of comments
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = { "italic" },
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---         -- miscs = {}, -- Uncomment to turn off hard-coded styles
---       },
---     })
+--     vim.cmd.colorscheme("kanagawa-paper")
 --
---     vim.cmd.colorscheme("catppuccin-frappe")
+--     -- Set custom background colors
+--     local colors = require("kanagawa-paper.colors").setup()
+--     vim.api.nvim_set_hl(0, "Normal", { bg = colors.theme.ui.bg_p1 }) -- Float bg for editor
+--     vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.theme.ui.bg }) -- Standard bg for dialogs
+--     vim.api.nvim_set_hl(0, "FloatBorder", { bg = colors.theme.ui.bg })
 --   end,
 -- }
+-- catppuccin
+{
+  "catppuccin/nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("catppuccin").setup({
+      flavour = "frappe", -- latte, frappe, macchiato, mocha
+      transparent_background = true, -- disables setting the background color
+      styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" }, -- Change the style of comments
+        conditionals = { "italic" },
+        loops = {},
+        functions = {},
+        keywords = { "italic" },
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+        -- miscs = {}, -- Uncomment to turn off hard-coded styles
+      },
+    })
+
+    vim.cmd.colorscheme("catppuccin-frappe")
+  end,
+}
 --  Kanagawa
 -- {
 --   "rebelot/kanagawa.nvim",
