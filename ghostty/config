@@ -5,11 +5,15 @@
 # theme = "tokyonight-day" 
 # theme = "tokyonight-storm"
 # theme = nord
-theme = catppuccin-frappe
+# theme = catppuccin-frappe
+theme = everforest-dark
 background-opacity = 0.95
+background-blur-radius = 10
+macos-icon = official 
 
 # font settings
 # font-family = "MonoLisa Nerd Font"
+# font-family = "Iosevka NF"
 font-family = "Maple Mono NF"
 font-size = 12
 
