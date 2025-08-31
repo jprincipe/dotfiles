@@ -18,15 +18,6 @@ map("n", "<leader>cx", function()
   vim.fn.setpos(".", cursor_pos)
 end, { desc = "Format XML with xmllint" })
 
-local wk = require("which-key")
-wk.add({
-  { "<leader>m", group = "marks" },
-})
-
-map("n", "<leader>ml", function()
-  vim.keymap.set("n", "<leader>ml", require("recall.snacks").pick, { noremap = true, silent = true })
-end, { desc = "list" })
-
 -- Custom directory search
 map("n", "<leader>sf", function()
   local dir = vim.fn.input("Search in directory: ", vim.fn.getcwd() .. "/", "dir")
@@ -38,3 +29,9 @@ end, { desc = "Grep (Custom Dir)" })
 -- Navigate between splits
 map("n", "<C-]>", "<C-w>w", { desc = "Move to next split" })
 map("n", "<C-[>", "<C-w>W", { desc = "Move to previous split" })
+
+-- LSP keymaps (ensure they're always available)
+map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+map("n", "gr", vim.lsp.buf.references, { desc = "Go to references" })
+map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+map("n", "gy", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
