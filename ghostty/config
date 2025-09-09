@@ -6,7 +6,8 @@
 # theme = "tokyonight-storm"
 # theme = nord
 # theme = catppuccin-frappe
-theme = everforest-dark
+# theme = everforest-dark
+theme = "Monokai Pro Octagon"
 background-opacity = 0.95
 background-blur-radius = 10
 macos-icon = official 
@@ -33,7 +34,7 @@ font-feature = calt
 font-feature = cv01
 
 # use dev builds
-auto-update-channel = tip
+# auto-update-channel = tip
 
 # shaders
 custom-shader=./shaders/cursor_smear_fade.glsl
