@@ -47,6 +47,9 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
 
+# direnv
+eval "$(direnv hook zsh)"
+
 ######################################
 # PATH 
 ######################################
@@ -56,6 +59,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
 
 . "$HOME/.local/bin/env"
+
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/jprincipe/.docker/completions $fpath)
 # End of Docker CLI completions
