@@ -1,26 +1,26 @@
 return
 -- everforest
--- {
---   "neanias/everforest-nvim",
---   version = false,
---   lazy = false,
---   priority = 1000, -- make sure to load this before all the other start plugins
---   -- Optional; default configuration will be used if setup isn't called.
---   config = function()
---     require("everforest").setup({
---       background = "hard",
---       transparent_background_level = 0.95,
---       italics = true,
---       disable_italic_comments = false,
---       sign_column_background = "none",
---       ui_contrast = "low",
---       dim_inactive_windows = false,
---       diagnostic_text_highlight = true,
---       diagnostic_virtual_text = "coloured",
---     })
---     vim.cmd.colorscheme("everforest")
---   end,
--- }
+{
+  "neanias/everforest-nvim",
+  version = false,
+  lazy = false,
+  priority = 1000, -- make sure to load this before all the other start plugins
+  -- Optional; default configuration will be used if setup isn't called.
+  config = function()
+    require("everforest").setup({
+      background = "hard",
+      transparent_background_level = 0.95,
+      italics = true,
+      disable_italic_comments = false,
+      sign_column_background = "none",
+      ui_contrast = "low",
+      dim_inactive_windows = false,
+      diagnostic_text_highlight = true,
+      diagnostic_virtual_text = "coloured",
+    })
+    vim.cmd.colorscheme("everforest")
+  end,
+}
 -- Kanagawa Paper
 -- {
 --   "thesimonho/kanagawa-paper.nvim",
@@ -66,30 +66,30 @@ return
 --   end,
 -- }
 -- monokai-pro
-{
-  "loctvl842/monokai-pro.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require("monokai-pro").setup({
-      transparent_background = true,
-      terminal_colors = true,
-      devicons = true, -- highlight the icons of `nvim-web-devicons`
-      styles = {
-        comment = { italic = true },
-        keyword = { italic = true }, -- any other keyword
-        type = { italic = true }, -- (preferred) int, long, char, etc
-        storageclass = { italic = true }, -- static, register, volatile, etc
-        structure = { italic = true }, -- struct, union, enum, etc
-        parameter = { italic = true }, -- parameter pass in function
-        annotation = { italic = true },
-        tag_attribute = { italic = true }, -- attribute of tag in reactjs
-      },
-      filter = "octagon", -- classic | octagon | pro | machine | ristretto | spectrum
-    })
-    vim.cmd.colorscheme("monokai-pro")
-  end,
-}
+-- {
+--   "loctvl842/monokai-pro.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("monokai-pro").setup({
+--       transparent_background = true,
+--       terminal_colors = true,
+--       devicons = true, -- highlight the icons of `nvim-web-devicons`
+--       styles = {
+--         comment = { italic = true },
+--         keyword = { italic = true }, -- any other keyword
+--         type = { italic = true }, -- (preferred) int, long, char, etc
+--         storageclass = { italic = true }, -- static, register, volatile, etc
+--         structure = { italic = true }, -- struct, union, enum, etc
+--         parameter = { italic = true }, -- parameter pass in function
+--         annotation = { italic = true },
+--         tag_attribute = { italic = true }, -- attribute of tag in reactjs
+--       },
+--       filter = "machine", -- classic | octagon | pro | machine | ristretto | spectrum
+--     })
+--     vim.cmd.colorscheme("monokai-pro")
+--   end,
+-- }
 --  Kanagawa
 -- {
 --   "rebelot/kanagawa.nvim",
