@@ -9,12 +9,12 @@ return
   config = function()
     require("everforest").setup({
       background = "hard",
-      transparent_background_level = 0.95,
+      -- transparent_background_level = 0.95,
       italics = true,
       disable_italic_comments = false,
       sign_column_background = "none",
       ui_contrast = "low",
-      dim_inactive_windows = false,
+      dim_inactive_windows = true,
       diagnostic_text_highlight = true,
       diagnostic_virtual_text = "coloured",
     })
