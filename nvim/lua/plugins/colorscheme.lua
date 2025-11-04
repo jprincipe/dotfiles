@@ -1,26 +1,60 @@
 return
+-- nightfox (nordfox variant)
+-- {
+--   "EdenEast/nightfox.nvim",
+--   lazy = false,
+--   priority = 1000, -- make sure to load this before all the other start plugins
+--   config = function()
+--     require("nightfox").setup({
+--       options = {
+--         -- Compile to improve startup time
+--         dim_inactive = true, -- Non-focused panes set to alternative background
+--         styles = {
+--           comments = "italic", -- Style to be applied to comments (matches italics = true)
+--           conditionals = "NONE",
+--           constants = "NONE",
+--           functions = "NONE",
+--           keywords = "italic", -- Add italics to keywords for similar look
+--           numbers = "NONE",
+--           operators = "NONE",
+--           strings = "NONE",
+--           types = "italic", -- Add italics to types for similar look
+--           variables = "NONE",
+--         },
+--         modules = {
+--           -- Enable specific plugin integrations
+--           diagnostic = {
+--             enable = true,
+--             background = true, -- Enable diagnostic background highlights (matches diagnostic_text_highlight)
+--           },
+--         },
+--       },
+--     })
+--     vim.cmd.colorscheme("nordfox")
+--   end,
+-- }
 -- everforest
-{
-  "neanias/everforest-nvim",
-  version = false,
-  lazy = false,
-  priority = 1000, -- make sure to load this before all the other start plugins
-  -- Optional; default configuration will be used if setup isn't called.
-  config = function()
-    require("everforest").setup({
-      background = "hard",
-      -- transparent_background_level = 0.95,
-      italics = true,
-      disable_italic_comments = false,
-      sign_column_background = "none",
-      ui_contrast = "low",
-      dim_inactive_windows = true,
-      diagnostic_text_highlight = true,
-      diagnostic_virtual_text = "coloured",
-    })
-    vim.cmd.colorscheme("everforest")
-  end,
-}
+-- {
+--   "neanias/everforest-nvim",
+--   version = false,
+--   lazy = false,
+--   priority = 1000, -- make sure to load this before all the other start plugins
+--   -- Optional; default configuration will be used if setup isn't called.
+--   config = function()
+--     require("everforest").setup({
+--       background = "medium",
+--       -- transparent_background_level = 0.95,
+--       italics = true,
+--       disable_italic_comments = false,
+--       sign_column_background = "none",
+--       ui_contrast = "low",
+--       dim_inactive_windows = true,
+--       diagnostic_text_highlight = true,
+--       diagnostic_virtual_text = "coloured",
+--     })
+--     vim.cmd.colorscheme("everforest")
+--   end,
+-- }
 -- Kanagawa Paper
 -- {
 --   "thesimonho/kanagawa-paper.nvim",
@@ -100,14 +134,14 @@ return
 --   end,
 -- }
 -- Nordic
--- {
---   "AlexvZyl/nordic.nvim",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     require("nordic").load()
---   end,
--- }
+{
+  "AlexvZyl/nordic.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("nordic").load()
+  end,
+}
 -- Nord
 -- {
 --   "gbprod/nord.nvim",
