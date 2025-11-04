@@ -1,0 +1,31 @@
+gui:
+  # Use a theme with better contrast for Nordic colorscheme
+  theme:
+    # Default text color - use brighter white for better visibility
+    defaultFgColor:
+      - "#ECEFF4"
+    # Selected line background - make it more distinct
+    selectedLineBgColor:
+      - "#434C5E"
+    # Selected line text - bright white
+    selectedRangeBgColor:
+      - "#5E81AC"
+    # Cherry picked commit background
+    cherryPickedCommitFgColor:
+      - "#88C0D0"
+    cherryPickedCommitBgColor:
+      - "#3B4252"
+    # Untracked file color
+    unstagedChangesColor:
+      - "#BF616A"
+    # Options/info text
+    optionsTextColor:
+      - "#81A1C1"
+    # Search highlighting
+    searchingActiveBorderColor:
+      - "#EBCB8B"
+    # Inline additions in diff view
+    activeBorderColor:
+      - "#88C0D0"
+    inactiveBorderColor:
+      - "#4C566A"

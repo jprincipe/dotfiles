@@ -139,6 +139,45 @@ return
   lazy = false,
   priority = 1000,
   config = function()
+    require("nordic").setup({
+      -- Reduce window split visibility
+      reduced_blue = false,
+      -- Enable bold keywords
+      bold_keywords = false,
+      -- Enable italic comments
+      italic_comments = true,
+      -- Enable general editor background transparency
+      transparent = {
+        bg = false,
+      },
+      -- Brighten up some colors for better visibility in terminals
+      bright_border = true,
+      -- Override specific colors for better LazyGit visibility
+      on_highlight = function(highlights, palette)
+        -- Make floating windows more visible with better contrast
+        highlights.NormalFloat = { bg = "#2e3440", fg = "#e5e9f0" }
+        highlights.FloatBorder = { bg = "#2e3440", fg = "#81a1c1" }
+        highlights.FloatTitle = { bg = "#2e3440", fg = "#88c0d0" }
+        -- Terminal colors - brighten text for better visibility
+        highlights.Terminal = { bg = "#2e3440", fg = "#eceff4" }
+        -- Make selected/highlighted text more visible
+        highlights.Visual = { bg = "#434c5e" }
+        -- Improve diff colors for LazyGit
+        highlights.DiffAdd = { bg = "#3e4b3a", fg = "#a3be8c" }
+        highlights.DiffChange = { bg = "#3a4252", fg = "#81a1c1" }
+        highlights.DiffDelete = { bg = "#4a3341", fg = "#bf616a" }
+        highlights.DiffText = { bg = "#4c566a", fg = "#ebcb8b" }
+        -- Additional terminal color adjustments for LazyGit compatibility
+        highlights.TermCursor = { fg = "#2e3440", bg = "#eceff4" }
+        highlights.TermCursorNC = { fg = "#2e3440", bg = "#81a1c1" }
+        -- Dim inactive windows with much darker background for prominence
+        -- Normal uses #242933 (gray0), so we use #1E222A (black1) for more visible dimming
+        highlights.NormalNC = { bg = "#1E222A", fg = "#d0d5dd" }
+        -- Also dim line numbers and sign column in inactive windows
+        highlights.LineNrNC = { bg = "#1E222A", fg = "#3b4252" }
+        highlights.SignColumnNC = { bg = "#1E222A" }
+      end,
+    })
     require("nordic").load()
   end,
 }
