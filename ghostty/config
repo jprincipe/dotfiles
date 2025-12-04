@@ -31,7 +31,7 @@ quick-terminal-size = 50%
 clipboard-paste-protection = false
 
 # keybinds
-keybind = global:super+/=toggle_quick_terminal
+# keybind = global:super+/=toggle_quick_terminal
 keybind = shift+enter=text:\n
 
 # font settings
