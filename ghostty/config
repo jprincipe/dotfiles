@@ -1,7 +1,8 @@
 # themes
-theme = "nordic"
+# theme = "nordic"
+theme = "kanagawa"
 # theme = "kanagawa-paper"
-# background = "#2A2A37"
+background = "#2A2A37"
 # theme = "tokyonight-day" 
 # theme = "tokyonight-storm"
 # theme = nord
@@ -19,8 +20,11 @@ font-family = "Maple Mono NF"
 font-size = 12
 
 # window settings
-macos-titlebar-style = tabs
-# macos-titlebar-style = hidden
+# macos-titlebar-style = tabs
+macos-titlebar-style = hidden
+window-padding-x = 0
+window-padding-y = 0
+window-padding-balance = true
 window-save-state = never
 quick-terminal-position = top
 quick-terminal-size = 50%
