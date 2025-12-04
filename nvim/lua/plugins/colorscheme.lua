@@ -7,25 +7,24 @@ return
 --   config = function()
 --     require("nightfox").setup({
 --       options = {
---         -- Compile to improve startup time
+--         transparent = false, -- Enable transparent background
 --         dim_inactive = true, -- Non-focused panes set to alternative background
 --         styles = {
---           comments = "italic", -- Style to be applied to comments (matches italics = true)
+--           comments = "italic",
 --           conditionals = "NONE",
 --           constants = "NONE",
 --           functions = "NONE",
---           keywords = "italic", -- Add italics to keywords for similar look
+--           keywords = "italic",
 --           numbers = "NONE",
 --           operators = "NONE",
 --           strings = "NONE",
---           types = "italic", -- Add italics to types for similar look
+--           types = "italic",
 --           variables = "NONE",
 --         },
 --         modules = {
---           -- Enable specific plugin integrations
 --           diagnostic = {
 --             enable = true,
---             background = true, -- Enable diagnostic background highlights (matches diagnostic_text_highlight)
+--             background = true,
 --           },
 --         },
 --       },
@@ -125,62 +124,70 @@ return
 --   end,
 -- }
 --  Kanagawa
--- {
---   "rebelot/kanagawa.nvim",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     require("kanagawa").load("wave")
---   end,
--- }
--- Nordic
 {
-  "AlexvZyl/nordic.nvim",
+  "rebelot/kanagawa.nvim",
   lazy = false,
   priority = 1000,
   config = function()
-    require("nordic").setup({
-      -- Reduce window split visibility
-      reduced_blue = false,
-      -- Enable bold keywords
-      bold_keywords = false,
-      -- Enable italic comments
-      italic_comments = true,
-      -- Enable general editor background transparency
-      transparent = {
-        bg = false,
-      },
-      -- Brighten up some colors for better visibility in terminals
-      bright_border = true,
-      -- Override specific colors for better LazyGit visibility
-      on_highlight = function(highlights, palette)
-        -- Make floating windows more visible with better contrast
-        highlights.NormalFloat = { bg = "#2e3440", fg = "#e5e9f0" }
-        highlights.FloatBorder = { bg = "#2e3440", fg = "#81a1c1" }
-        highlights.FloatTitle = { bg = "#2e3440", fg = "#88c0d0" }
-        -- Terminal colors - brighten text for better visibility
-        highlights.Terminal = { bg = "#2e3440", fg = "#eceff4" }
-        -- Make selected/highlighted text more visible
-        highlights.Visual = { bg = "#434c5e" }
-        -- Improve diff colors for LazyGit
-        highlights.DiffAdd = { bg = "#3e4b3a", fg = "#a3be8c" }
-        highlights.DiffChange = { bg = "#3a4252", fg = "#81a1c1" }
-        highlights.DiffDelete = { bg = "#4a3341", fg = "#bf616a" }
-        highlights.DiffText = { bg = "#4c566a", fg = "#ebcb8b" }
-        -- Additional terminal color adjustments for LazyGit compatibility
-        highlights.TermCursor = { fg = "#2e3440", bg = "#eceff4" }
-        highlights.TermCursorNC = { fg = "#2e3440", bg = "#81a1c1" }
-        -- Dim inactive windows with much darker background for prominence
-        -- Normal uses #242933 (gray0), so we use #1E222A (black1) for more visible dimming
-        highlights.NormalNC = { bg = "#1E222A", fg = "#d0d5dd" }
-        -- Also dim line numbers and sign column in inactive windows
-        highlights.LineNrNC = { bg = "#1E222A", fg = "#3b4252" }
-        highlights.SignColumnNC = { bg = "#1E222A" }
-      end,
+    require("kanagawa").setup({
+      transparent = true, -- do not set background color
+      dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+      theme = "wave",
     })
-    require("nordic").load()
+
+    vim.cmd.colorscheme("kanagawa")
   end,
 }
+-- Nordic
+-- {
+--   "AlexvZyl/nordic.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("nordic").setup({
+--       -- Reduce window split visibility
+--       reduced_blue = false,
+--       -- Enable bold keywords
+--       bold_keywords = false,
+--       -- Enable italic comments
+--       italic_comments = true,
+--       -- Enable general editor background transparency
+--       transparent = {
+--         bg = true,
+--       },
+--       -- Brighten up some colors for better visibility in terminals
+--       bright_border = true,
+--       -- Override specific colors for better LazyGit visibility
+--       on_highlight = function(highlights, palette)
+--         -- Make floating windows more visible with better contrast
+--         highlights.NormalFloat = { bg = "#2e3440", fg = "#e5e9f0" }
+--         highlights.FloatBorder = { bg = "#2e3440", fg = "#81a1c1" }
+--         highlights.FloatTitle = { bg = "#2e3440", fg = "#88c0d0" }
+--         -- Terminal colors - brighten text for better visibility
+--         highlights.Terminal = { bg = "#2e3440", fg = "#eceff4" }
+--         -- Make selected/highlighted text more visible
+--         highlights.Visual = { bg = "#434c5e" }
+--         -- Improve diff colors for LazyGit
+--         highlights.DiffAdd = { bg = "#3e4b3a", fg = "#a3be8c" }
+--         highlights.DiffChange = { bg = "#3a4252", fg = "#81a1c1" }
+--         highlights.DiffDelete = { bg = "#4a3341", fg = "#bf616a" }
+--         highlights.DiffText = { bg = "#4c566a", fg = "#ebcb8b" }
+--         -- Additional terminal color adjustments for LazyGit compatibility
+--         highlights.TermCursor = { fg = "#2e3440", bg = "#eceff4" }
+--         highlights.TermCursorNC = { fg = "#2e3440", bg = "#81a1c1" }
+--         -- Which-key popup styling - match other floating windows
+--         highlights.WhichKey = { fg = "#88c0d0" } -- Bright cyan for keys
+--         highlights.WhichKeyGroup = { fg = "#81a1c1" } -- Blue for group names
+--         highlights.WhichKeyDesc = { fg = "#e5e9f0" } -- Light text for descriptions
+--         highlights.WhichKeySeparator = { fg = "#5e81ac" } -- Darker blue for separators
+--         highlights.WhichKeyFloat = { bg = "#2e3440" } -- Match NormalFloat
+--         highlights.WhichKeyBorder = { bg = "#2e3440", fg = "#81a1c1" } -- Match FloatBorder
+--         highlights.WhichKeyValue = { fg = "#d08770" } -- Orange for values
+--       end,
+--     })
+--     require("nordic").load()
+--   end,
+-- }
 -- Nord
 -- {
 --   "gbprod/nord.nvim",

@@ -18,20 +18,49 @@ map("n", "<leader>cx", function()
   vim.fn.setpos(".", cursor_pos)
 end, { desc = "Format XML with xmllint" })
 
--- Custom directory search
-map("n", "<leader>sf", function()
-  local dir = vim.fn.input("Search in directory: ", vim.fn.getcwd() .. "/", "dir")
-  if dir ~= "" then
-    LazyVim.pick("grep", { cwd = dir })()
+-- Copy just the file path
+local function copy_file_path()
+  local relative_path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", relative_path)
+  vim.notify("Copied: " .. relative_path, vim.log.levels.INFO)
+end
+
+-- Copy file path with line numbers
+local function copy_path_with_lines()
+  local relative_path = vim.fn.expand("%:.")
+  local mode = vim.api.nvim_get_mode().mode
+
+  local result
+  if mode == "v" or mode == "V" or mode == "\22" then -- visual, visual-line, or visual-block
+    local start_line = vim.fn.line("v")
+    local end_line = vim.fn.line(".")
+    -- Ensure start_line <= end_line
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
+
+    if start_line == end_line then
+      result = string.format("%s:%d", relative_path, start_line)
+    else
+      result = string.format("%s:%d-%d", relative_path, start_line, end_line)
+    end
+  else -- normal mode
+    local current_line = vim.fn.line(".")
+    result = string.format("%s:%d", relative_path, current_line)
   end
-end, { desc = "Grep (Custom Dir)" })
 
--- Navigate between splits
-map("n", "<C-]>", "<C-w>w", { desc = "Move to next split" })
-map("n", "<C-[>", "<C-w>W", { desc = "Move to previous split" })
+  vim.fn.setreg("+", result)
+  vim.notify("Copied: " .. result, vim.log.levels.INFO)
+end
 
--- LSP keymaps (ensure they're always available)
-map("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
-map("n", "gr", vim.lsp.buf.references, { desc = "Go to references" })
-map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
-map("n", "gy", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
+vim.keymap.set({ "n", "v" }, "<leader>yf", copy_file_path, {
+  noremap = true,
+  silent = true,
+  desc = "Copy file path",
+})
+
+vim.keymap.set({ "n", "v" }, "<leader>yl", copy_path_with_lines, {
+  noremap = true,
+  silent = true,
+  desc = "Copy file path with line numbers",
+})
