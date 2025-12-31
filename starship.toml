@@ -2,7 +2,7 @@
 
 add_newline = true
 command_timeout = 200
-format = "[$directory$time]($style)$character"
+format = "$directory$git_branch$time$character"
 # right_format = "$time"
 
 [time]
