@@ -26,8 +26,8 @@ macos-titlebar-style = tabs
 # window-padding-y = 0
 # window-padding-balance = true
 window-save-state = never
-quick-terminal-position = top
-quick-terminal-size = 33%
+quick-terminal-position = center
+quick-terminal-size = 75%
 clipboard-paste-protection = false
 
 # keybinds
