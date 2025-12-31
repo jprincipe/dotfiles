@@ -1,26 +1,44 @@
+-- Treesitter (Neovim 0.11+)
+-- Plugin handles parser installation, Neovim handles highlighting
 return {
   "nvim-treesitter/nvim-treesitter",
-  opts = {
-    ensure_installed = {
+  lazy = false, -- Required: plugin does not support lazy-loading
+  build = ":TSUpdate",
+  config = function()
+    require("nvim-treesitter").setup({})
+
+    -- Install parsers
+    require("nvim-treesitter").install({
       "bash",
-      "docker",
-      "eex",
+      "c",
+      "css",
+      "diff",
       "elixir",
+      "eex",
       "heex",
       "html",
       "javascript",
       "json",
       "lua",
+      "luadoc",
       "markdown",
       "markdown_inline",
-      "python",
       "query",
       "regex",
-      "tailwind",
+      "sql",
+      "toml",
       "tsx",
       "typescript",
       "vim",
+      "vimdoc",
       "yaml",
-    },
-  },
+    })
+
+    -- Enable treesitter highlighting for all filetypes
+    vim.api.nvim_create_autocmd("FileType", {
+      callback = function()
+        pcall(vim.treesitter.start)
+      end,
+    })
+  end,
 }

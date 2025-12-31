@@ -132,10 +132,9 @@ return
     require("kanagawa").setup({
       transparent = true, -- do not set background color
       dimInactive = true, -- dim inactive window `:h hl-NormalNC`
-      theme = "wave",
     })
 
-    vim.cmd.colorscheme("kanagawa")
+    vim.cmd.colorscheme("kanagawa-wave")
   end,
 }
 -- Nordic

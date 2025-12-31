@@ -11,19 +11,9 @@ return {
   },
   {
     "mistweaverco/kulala.nvim",
-    ft = { "http", "rest" },
+    event = "VeryLazy",
     opts = {
-      -- your configuration comes here
       global_keymaps = true,
     },
-    init = function()
-      local wk = require("which-key")
-      wk.add({
-        { "<leader>R", group = "REST" }, -- group
-      })
-    end,
-    config = function(_, opts)
-      require("kulala").setup(opts)
-    end,
   },
 }
