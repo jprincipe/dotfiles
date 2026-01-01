@@ -194,13 +194,68 @@ return {
         },
       },
     })
+
+    -----------------------------------------------------------
+    -- AI (Enhanced Textobjects)
+    -----------------------------------------------------------
+    require("mini.ai").setup()
+
+    -----------------------------------------------------------
+    -- Move (Move lines/selections with Alt+hjkl)
+    -----------------------------------------------------------
+    require("mini.move").setup()
+
+    -----------------------------------------------------------
+    -- Splitjoin (Toggle split/join with gS)
+    -----------------------------------------------------------
+    require("mini.splitjoin").setup()
+
+    -----------------------------------------------------------
+    -- Bufremove (Delete buffers without closing windows)
+    -----------------------------------------------------------
+    require("mini.bufremove").setup()
+
+    -----------------------------------------------------------
+    -- Diff (Git diff in sign column)
+    -----------------------------------------------------------
+    require("mini.diff").setup()
+
+    -----------------------------------------------------------
+    -- Sessions (Session management)
+    -----------------------------------------------------------
+    require("mini.sessions").setup()
+
+    -----------------------------------------------------------
+    -- Animate (Smooth animations)
+    -----------------------------------------------------------
+    require("mini.animate").setup()
+
+    -----------------------------------------------------------
+    -- Cursorword (Highlight word under cursor)
+    -----------------------------------------------------------
+    require("mini.cursorword").setup()
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "neo-tree", "lazy", "mason", "starter" },
+      callback = function()
+        vim.b.minicursorword_disable = true
+      end,
+    })
   end,
   keys = {
+    -- Pick
     { "<leader>ff", function() MiniPick.builtin.files() end, desc = "Find files" },
     { "<leader>fg", function() MiniPick.builtin.grep_live() end, desc = "Live grep" },
     { "<leader>fb", function() MiniPick.builtin.buffers() end, desc = "Buffers" },
     { "<leader>fh", function() MiniPick.builtin.help() end, desc = "Help tags" },
     { "<leader>fr", function() MiniPick.builtin.resume() end, desc = "Resume picker" },
     { "<leader><leader>", function() MiniPick.builtin.files() end, desc = "Find files" },
+    -- Bufremove
+    { "<leader>bd", function() MiniBufremove.delete() end, desc = "Delete buffer" },
+    { "<leader>bw", function() MiniBufremove.wipeout() end, desc = "Wipeout buffer" },
+    -- Diff
+    { "<leader>go", function() MiniDiff.toggle_overlay() end, desc = "Toggle diff overlay" },
+    -- Sessions
+    { "<leader>ss", function() MiniSessions.write() end, desc = "Save session" },
+    { "<leader>sl", function() MiniSessions.select() end, desc = "Load session" },
   },
 }
