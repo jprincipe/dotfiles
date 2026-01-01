@@ -2,6 +2,7 @@
 return {
   cmd = { vim.fn.expand('~/.local/bin/expert'), '--stdio' },
   filetypes = { 'elixir', 'eelixir', 'heex', 'surface' },
-  -- For umbrella apps: 'apps' dir only exists at root
-  root_markers = { 'apps', '.git', 'mix.exs' },
+  -- For umbrella apps: 'apps' and '.git' only exist at umbrella root
+  -- Don't use 'mix.exs' as each app has its own
+  root_markers = { 'apps', '.git' },
 }
