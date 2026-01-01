@@ -47,6 +47,7 @@ opt.completeopt = { "menu", "menuone", "noselect" }
 opt.pumheight = 10
 
 -- Misc
+opt.confirm = true
 opt.hidden = true
 opt.updatetime = 250
 opt.timeoutlen = 300
