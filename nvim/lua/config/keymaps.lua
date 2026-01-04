@@ -127,3 +127,4 @@ map("n", "<leader>to", "<cmd>tabonly<CR>", { desc = "Close other tabs" })
 
 -- Lazy
 map("n", "<leader>l", "<cmd>Lazy<CR>", { desc = "Lazy" })
+

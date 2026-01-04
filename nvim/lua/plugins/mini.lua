@@ -115,21 +115,6 @@ return {
     })
 
     -----------------------------------------------------------
-    -- Pick
-    -----------------------------------------------------------
-    require("mini.pick").setup({
-      mappings = {
-        move_down = "<C-j>",
-        move_up = "<C-k>",
-      },
-      window = {
-        config = {
-          border = "rounded",
-        },
-      },
-    })
-
-    -----------------------------------------------------------
     -- Clue
     -----------------------------------------------------------
     local miniclue = require("mini.clue")
@@ -242,17 +227,21 @@ return {
     })
   end,
   keys = {
-    -- Pick
-    { "<leader>ff", function() MiniPick.builtin.files() end, desc = "Find files" },
-    { "<leader>fg", function() MiniPick.builtin.grep_live() end, desc = "Live grep" },
-    { "<leader>fb", function() MiniPick.builtin.buffers() end, desc = "Buffers" },
-    { "<leader>fh", function() MiniPick.builtin.help() end, desc = "Help tags" },
-    { "<leader>fr", function() MiniPick.builtin.resume() end, desc = "Resume picker" },
-    { "<leader><leader>", function() MiniPick.builtin.files() end, desc = "Find files" },
-    { "<leader>,", function() MiniPick.builtin.buffers() end, desc = "Find buffers" },
-    -- Bufremove
-    { "<leader>bd", function() MiniBufremove.delete() end, desc = "Delete buffer" },
-    { "<leader>bw", function() MiniBufremove.wipeout() end, desc = "Wipeout buffer" },
+    -- Bufremove (creates empty buffer if closing last one)
+    { "<leader>bd", function()
+      local bufs = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted and vim.bo[b].buftype == ""
+      end, vim.api.nvim_list_bufs())
+      if #bufs <= 1 then vim.cmd("enew") end
+      MiniBufremove.delete()
+    end, desc = "Delete buffer" },
+    { "<leader>bw", function()
+      local bufs = vim.tbl_filter(function(b)
+        return vim.bo[b].buflisted and vim.bo[b].buftype == ""
+      end, vim.api.nvim_list_bufs())
+      if #bufs <= 1 then vim.cmd("enew") end
+      MiniBufremove.wipeout()
+    end, desc = "Wipeout buffer" },
     -- Diff
     { "<leader>go", function() MiniDiff.toggle_overlay() end, desc = "Toggle diff overlay" },
     -- Sessions
