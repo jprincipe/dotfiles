@@ -43,21 +43,6 @@ Surround text with brackets, quotes, tags, etc.
 Visual indent guides showing the current scope.
 - Disabled in: help, lazy, mason, notify, oil, starter
 
-### mini.pick
-Fuzzy finder/picker.
-
-| Key | Action |
-|-----|--------|
-| `<leader>ff` | Find files |
-| `<leader>fg` | Live grep |
-| `<leader>fb` | Buffers |
-| `<leader>fh` | Help tags |
-| `<leader>fr` | Resume picker |
-| `<leader><leader>` | Find files |
-
-**Inside picker:**
-- `<C-j>` / `<C-k>` - Navigate up/down
-
 ### mini.clue
 Shows keybinding hints after pressing leader keys.
 - Triggers on: `<leader>`, `g`, `z`, `'`, `` ` ``, `"`, `<C-w>`, `[`, `]`, `<C-x>` (insert), `<C-r>` (insert/cmd)

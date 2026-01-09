@@ -62,3 +62,12 @@ autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
     end
   end,
 })
+
+-- Format on save (LSP)
+augroup("FormatOnSave", { clear = true })
+autocmd("BufWritePre", {
+  group = "FormatOnSave",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})

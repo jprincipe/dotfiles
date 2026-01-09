@@ -54,29 +54,15 @@ return
 --     vim.cmd.colorscheme("everforest")
 --   end,
 -- }
--- Kanagawa Paper
--- {
---   "thesimonho/kanagawa-paper.nvim",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     vim.cmd.colorscheme("kanagawa-paper")
---
---     -- Set custom background colors
---     local colors = require("kanagawa-paper.colors").setup()
---     vim.api.nvim_set_hl(0, "Normal", { bg = colors.theme.ui.bg_p1 }) -- Float bg for editor
---     vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.theme.ui.bg }) -- Standard bg for dialogs
---     vim.api.nvim_set_hl(0, "FloatBorder", { bg = colors.theme.ui.bg })
---   end,
--- }
 -- catppuccin
 -- {
 --   "catppuccin/nvim",
+--   name = "catppuccin",
 --   lazy = false,
 --   priority = 1000,
 --   config = function()
 --     require("catppuccin").setup({
---       flavour = "frappe", -- latte, frappe, macchiato, mocha
+--       flavour = "latte", -- latte, frappe, macchiato, mocha
 --       transparent_background = true, -- disables setting the background color
 --       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
 --         comments = { "italic" }, -- Change the style of comments
@@ -95,7 +81,7 @@ return
 --       },
 --     })
 --
---     vim.cmd.colorscheme("catppuccin-frappe")
+--     vim.cmd.colorscheme("catppuccin-latte")
 --   end,
 -- }
 -- monokai-pro

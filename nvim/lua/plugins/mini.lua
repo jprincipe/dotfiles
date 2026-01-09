@@ -33,14 +33,20 @@ return {
           local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
           local filename = statusline.section_filename({ trunc_width = 140 })
           local location = "%l:%c"
+
+          -- Check if recording a macro
+          local recording = vim.fn.reg_recording()
+          local recording_status = recording ~= "" and ("REC @" .. recording) or ""
+
           return statusline.combine_groups({
-            { hl = mode_hl, strings = { mode } },
+            { hl = mode_hl,                 strings = { mode } },
+            { hl = "DiagnosticError",       strings = { recording_status } },
             { hl = "MiniStatuslineDevinfo", strings = { git } },
             "%<",
             { hl = "MiniStatuslineFilename", strings = { filename } },
             "%=",
-            { hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
-            { hl = mode_hl, strings = { location } },
+            { hl = "MiniStatuslineDevinfo",  strings = { diagnostics } },
+            { hl = mode_hl,                  strings = { location } },
           })
         end,
       },
@@ -161,8 +167,8 @@ return {
         { mode = "n", keys = "<Leader>y", desc = "+yank" },
         { mode = "n", keys = "<Leader>t", desc = "+tabs" },
         -- g subgroups
-        { mode = "n", keys = "gs", desc = "+surround" },
-        { mode = "x", keys = "gs", desc = "+surround" },
+        { mode = "n", keys = "gs",        desc = "+surround" },
+        { mode = "x", keys = "gs",        desc = "+surround" },
         -- Built-in clues
         miniclue.gen_clues.builtin_completion(),
         miniclue.gen_clues.g(),
@@ -208,12 +214,44 @@ return {
     -----------------------------------------------------------
     -- Sessions (Session management)
     -----------------------------------------------------------
-    require("mini.sessions").setup()
+    require("mini.sessions").setup({
+      autoread = false,
+      autowrite = true,
+    })
+    -- Auto-save session on exit (uses directory name as session name)
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+      callback = function()
+        -- Only save if we have real buffers open (not just starter/empty)
+        local dominated_ft = { "starter", "lazy", "mason", "neo-tree", "oil", "" }
+        local dominated_bt = { "nofile", "help", "terminal" }
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_loaded(buf) then
+            local ft = vim.bo[buf].filetype
+            local bt = vim.bo[buf].buftype
+            if not vim.tbl_contains(dominated_ft, ft) and not vim.tbl_contains(dominated_bt, bt) then
+              local name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+              MiniSessions.write(name)
+              return
+            end
+          end
+        end
+      end,
+    })
 
     -----------------------------------------------------------
     -- Animate (Smooth animations)
     -----------------------------------------------------------
-    require("mini.animate").setup()
+    require("mini.animate").setup({
+      open = { enable = false },
+      close = { enable = false },
+    })
+    -- Disable animations for certain filetypes
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "neo-tree", "oil", "starter", "lazy", "mason" },
+      callback = function()
+        vim.b.minianimate_disable = true
+      end,
+    })
 
     -----------------------------------------------------------
     -- Cursorword (Highlight word under cursor)
@@ -228,24 +266,53 @@ return {
   end,
   keys = {
     -- Bufremove (creates empty buffer if closing last one)
-    { "<leader>bd", function()
-      local bufs = vim.tbl_filter(function(b)
-        return vim.bo[b].buflisted and vim.bo[b].buftype == ""
-      end, vim.api.nvim_list_bufs())
-      if #bufs <= 1 then vim.cmd("enew") end
-      MiniBufremove.delete()
-    end, desc = "Delete buffer" },
-    { "<leader>bw", function()
-      local bufs = vim.tbl_filter(function(b)
-        return vim.bo[b].buflisted and vim.bo[b].buftype == ""
-      end, vim.api.nvim_list_bufs())
-      if #bufs <= 1 then vim.cmd("enew") end
-      MiniBufremove.wipeout()
-    end, desc = "Wipeout buffer" },
+    {
+      "<leader>bd",
+      function()
+        local bufs = vim.tbl_filter(function(b)
+          return vim.bo[b].buflisted and vim.bo[b].buftype == ""
+        end, vim.api.nvim_list_bufs())
+        if #bufs <= 1 then vim.cmd("enew") end
+        MiniBufremove.delete()
+      end,
+      desc = "Delete buffer"
+    },
+    {
+      "<leader>bw",
+      function()
+        local bufs = vim.tbl_filter(function(b)
+          return vim.bo[b].buflisted and vim.bo[b].buftype == ""
+        end, vim.api.nvim_list_bufs())
+        if #bufs <= 1 then vim.cmd("enew") end
+        MiniBufremove.wipeout()
+      end,
+      desc = "Wipeout buffer"
+    },
     -- Diff
     { "<leader>go", function() MiniDiff.toggle_overlay() end, desc = "Toggle diff overlay" },
     -- Sessions
-    { "<leader>ss", function() MiniSessions.write() end, desc = "Save session" },
-    { "<leader>sl", function() MiniSessions.select() end, desc = "Load session" },
+    {
+      "<leader>ss",
+      function()
+        local name = vim.fn.input("Session name: ", vim.fn.fnamemodify(vim.fn.getcwd(), ":t"))
+        if name ~= "" then
+          MiniSessions.write(name)
+        end
+      end,
+      desc = "Save session"
+    },
+    { "<leader>sl", function() MiniSessions.select() end,     desc = "Load session" },
+    {
+      "<leader>sR",
+      function()
+        local name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+        if MiniSessions.detected[name] then
+          MiniSessions.read(name)
+        else
+          vim.notify("No session found for: " .. name, vim.log.levels.WARN)
+        end
+      end,
+      desc = "Restore session (cwd)"
+    },
   },
 }
