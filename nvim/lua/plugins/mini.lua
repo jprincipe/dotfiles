@@ -11,46 +11,7 @@ return {
     -----------------------------------------------------------
     -- Statusline
     -----------------------------------------------------------
-    local statusline = require("mini.statusline")
-    local mode_names = {
-      n = "NORMAL",
-      i = "INSERT",
-      v = "VISUAL",
-      V = "V-LINE",
-      ["\22"] = "V-BLOCK",
-      c = "COMMAND",
-      R = "REPLACE",
-      t = "TERMINAL",
-    }
-    statusline.setup({
-      use_icons = true,
-      content = {
-        active = function()
-          local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
-          local cur_mode = vim.fn.mode()
-          mode = mode_names[cur_mode] or mode
-          local git = statusline.section_git({ trunc_width = 75 })
-          local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
-          local filename = statusline.section_filename({ trunc_width = 140 })
-          local location = "%l:%c"
-
-          -- Check if recording a macro
-          local recording = vim.fn.reg_recording()
-          local recording_status = recording ~= "" and ("REC @" .. recording) or ""
-
-          return statusline.combine_groups({
-            { hl = mode_hl,                 strings = { mode } },
-            { hl = "DiagnosticError",       strings = { recording_status } },
-            { hl = "MiniStatuslineDevinfo", strings = { git } },
-            "%<",
-            { hl = "MiniStatuslineFilename", strings = { filename } },
-            "%=",
-            { hl = "MiniStatuslineDevinfo",  strings = { diagnostics } },
-            { hl = mode_hl,                  strings = { location } },
-          })
-        end,
-      },
-    })
+    require("mini.statusline").setup()
 
     -----------------------------------------------------------
     -- Starter
@@ -114,7 +75,7 @@ return {
       },
     })
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "help", "lazy", "mason", "notify", "oil", "starter" },
+      pattern = { "help", "lazy", "mason", "notify", "minifiles", "starter" },
       callback = function()
         vim.b.miniindentscope_disable = true
       end,
@@ -212,6 +173,29 @@ return {
     require("mini.diff").setup()
 
     -----------------------------------------------------------
+    -- Files (File explorer)
+    -----------------------------------------------------------
+    require("mini.files").setup({
+      mappings = {
+        close       = "q",
+        go_in       = "l",
+        go_in_plus  = "<CR>",
+        go_out      = "h",
+        go_out_plus = "-",
+        reset       = "<BS>",
+        reveal_cwd  = "@",
+        show_help   = "g?",
+        synchronize = "=",
+        trim_left   = "<",
+        trim_right  = ">",
+      },
+      windows = {
+        preview = true,
+        width_preview = 40,
+      },
+    })
+
+    -----------------------------------------------------------
     -- Sessions (Session management)
     -----------------------------------------------------------
     require("mini.sessions").setup({
@@ -222,7 +206,7 @@ return {
     vim.api.nvim_create_autocmd("VimLeavePre", {
       callback = function()
         -- Only save if we have real buffers open (not just starter/empty)
-        local dominated_ft = { "starter", "lazy", "mason", "neo-tree", "oil", "" }
+        local dominated_ft = { "starter", "lazy", "mason", "minifiles", "" }
         local dominated_bt = { "nofile", "help", "terminal" }
         for _, buf in ipairs(vim.api.nvim_list_bufs()) do
           if vim.api.nvim_buf_is_loaded(buf) then
@@ -247,7 +231,7 @@ return {
     })
     -- Disable animations for certain filetypes
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "neo-tree", "oil", "starter", "lazy", "mason" },
+      pattern = { "minifiles", "starter", "lazy", "mason" },
       callback = function()
         vim.b.minianimate_disable = true
       end,
@@ -258,7 +242,7 @@ return {
     -----------------------------------------------------------
     require("mini.cursorword").setup()
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "neo-tree", "lazy", "mason", "starter" },
+      pattern = { "minifiles", "lazy", "mason", "starter" },
       callback = function()
         vim.b.minicursorword_disable = true
       end,
@@ -289,7 +273,31 @@ return {
       desc = "Wipeout buffer"
     },
     -- Diff
-    { "<leader>go", function() MiniDiff.toggle_overlay() end, desc = "Toggle diff overlay" },
+    { "<leader>go", function() MiniDiff.toggle_overlay() end,              desc = "Toggle diff overlay" },
+    -- Files
+    {
+      "<leader>e",
+      function()
+        local path = vim.api.nvim_buf_get_name(0)
+        if path == "" or not vim.uv.fs_stat(path) then
+          path = vim.fn.getcwd()
+        end
+        MiniFiles.open(path, false)
+      end,
+      desc = "Explorer (current file)"
+    },
+    {
+      "-",
+      function()
+        local path = vim.api.nvim_buf_get_name(0)
+        if path == "" or not vim.uv.fs_stat(path) then
+          path = vim.fn.getcwd()
+        end
+        MiniFiles.open(path, false)
+      end,
+      desc = "Open parent directory"
+    },
+    { "<leader>E",  function() MiniFiles.open(vim.fn.getcwd(), false) end, desc = "Explorer (cwd)" },
     -- Sessions
     {
       "<leader>ss",
@@ -301,7 +309,7 @@ return {
       end,
       desc = "Save session"
     },
-    { "<leader>sl", function() MiniSessions.select() end,     desc = "Load session" },
+    { "<leader>sl", function() MiniSessions.select() end, desc = "Load session" },
     {
       "<leader>sR",
       function()
