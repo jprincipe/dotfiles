@@ -1,0 +1,91 @@
+# Evergarden Fall palette for k9s
+k9s:
+  body:
+    fgColor: "#F8F9E8"
+    bgColor: default
+    logoColor: "#CBE3B3"
+  prompt:
+    fgColor: "#F8F9E8"
+    bgColor: default
+    suggestColor: "#B3E3CA"
+  info:
+    fgColor: "#B2CAED"
+    sectionColor: "#CBE3B3"
+  dialog:
+    fgColor: "#F8F9E8"
+    bgColor: default
+    buttonFgColor: "#232A2E"
+    buttonBgColor: "#CBE3B3"
+    buttonFocusFgColor: "#232A2E"
+    buttonFocusBgColor: "#B3E3CA"
+    labelFgColor: "#F7A182"
+    fieldFgColor: "#F8F9E8"
+  frame:
+    border:
+      fgColor: "#4A585C"
+      focusColor: "#CBE3B3"
+    menu:
+      fgColor: "#ADC9BC"
+      keyColor: "#B3E3CA"
+      numKeyColor: "#B3E3CA"
+    crumbs:
+      fgColor: "#232A2E"
+      bgColor: "#B2CAED"
+      activeColor: "#CBE3B3"
+    status:
+      newColor: "#B2CAED"
+      modifyColor: "#B3E6DB"
+      addColor: "#CBE3B3"
+      pendingColor: "#F7A182"
+      errorColor: "#F57F82"
+      highlightColor: "#F5D098"
+      killColor: "#D2BDF3"
+      completedColor: "#96B4AA"
+    title:
+      fgColor: "#F8F9E8"
+      bgColor: default
+      highlightColor: "#CBE3B3"
+      counterColor: "#B3E3CA"
+      filterColor: "#B2CAED"
+  views:
+    charts:
+      bgColor: default
+      defaultDialColors:
+        - "#CBE3B3"
+        - "#F57F82"
+      defaultChartColors:
+        - "#CBE3B3"
+        - "#F57F82"
+    table:
+      fgColor: "#F8F9E8"
+      bgColor: default
+      cursorFgColor: "#232A2E"
+      cursorBgColor: "#CBE3B3"
+      markColor: "#F5D098"
+      header:
+        fgColor: "#ADC9BC"
+        bgColor: default
+        sorterColor: "#B3E3CA"
+    xray:
+      fgColor: "#F8F9E8"
+      bgColor: default
+      cursorColor: "#CBE3B3"
+      cursorTextColor: "#232A2E"
+      graphicColor: "#B3E3CA"
+    yaml:
+      keyColor: "#B3E3CA"
+      colonColor: "#96B4AA"
+      valueColor: "#F8F9E8"
+    logs:
+      fgColor: "#F8F9E8"
+      bgColor: default
+      indicator:
+        fgColor: "#ADC9BC"
+        bgColor: default
+        toggleOnColor: "#CBE3B3"
+        toggleOffColor: "#58686D"
+    help:
+      fgColor: "#F8F9E8"
+      bgColor: default
+      indicator:
+        fgColor: "#B2CAED"
