@@ -10,22 +10,22 @@ disabled = false
 format = "[$time]($style) "
 time_format = "%R"
 utc_time_offset = "local"
-style = "bold #D8DEE9"
+style = "bold #ADC9BC"
 
 [character]
-error_symbol = "[✗](bold #BF616A)"
-success_symbol = "[❯](bold #8FBCBB)[❯](bold #88C0D0)[❯](bold #81A1C1)"
+error_symbol = "[✗](bold #F57F82)"
+success_symbol = "[❯](bold #CBE3B3)[❯](bold #B3E3CA)[❯](bold #B3E6DB)"
 
 [directory]
 truncation_length = 2
 truncation_symbol = "…/"
-style = "#81A1C1"
-repo_root_style = "bold #88C0D0"
+style = "#B2CAED"
+repo_root_style = "bold #B3E3CA"
 repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
 format = "[$branch]($style) "
-style = "bold #A3BE8C"
+style = "bold #CBE3B3"
 
 # add_newline = true
 # continuation_prompt = "[▸▹ ](dimmed white)"
