@@ -9,9 +9,64 @@ return {
     require("mini.icons").setup()
 
     -----------------------------------------------------------
+    -- Git (commands and buffer history)
+    -----------------------------------------------------------
+    require("mini.git").setup()
+
+    -----------------------------------------------------------
     -- Statusline
     -----------------------------------------------------------
-    require("mini.statusline").setup()
+    local statusline = require("mini.statusline")
+    statusline.setup({
+      content = {
+        active = function()
+          -- Mode with full names
+          local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
+          local mode_names = {
+            n = "NORMAL", i = "INSERT", v = "VISUAL", V = "V-LINE",
+            ["\22"] = "V-BLOCK", c = "COMMAND", R = "REPLACE", t = "TERMINAL",
+          }
+          mode = mode_names[vim.fn.mode()] or mode
+
+          -- Recording macro indicator
+          local rec = vim.fn.reg_recording()
+          local recording = rec ~= "" and ("REC @" .. rec) or ""
+
+          -- Git branch + summary from mini.git
+          local git = statusline.section_git({ trunc_width = 40 })
+          local head = vim.b.minigit_summary and vim.b.minigit_summary.head_name or ""
+          if head ~= "" then git = head end
+
+          -- Diff stats from mini.diff
+          local diff = ""
+          local diff_data = vim.b.minidiff_summary
+          if diff_data then
+            local parts = {}
+            if (diff_data.add or 0) > 0 then table.insert(parts, "+" .. diff_data.add) end
+            if (diff_data.change or 0) > 0 then table.insert(parts, "~" .. diff_data.change) end
+            if (diff_data.delete or 0) > 0 then table.insert(parts, "-" .. diff_data.delete) end
+            diff = table.concat(parts, " ")
+          end
+
+          local diagnostics = statusline.section_diagnostics({ trunc_width = 75 })
+          local filename = statusline.section_filename({ trunc_width = 140 })
+          local location = "%l:%c"
+          local search = statusline.section_searchcount({ trunc_width = 75 })
+
+          return statusline.combine_groups({
+            { hl = mode_hl, strings = { mode } },
+            { hl = "DiagnosticError", strings = { recording } },
+            { hl = "MiniStatuslineDevinfo", strings = { git, diff } },
+            "%<",
+            { hl = "MiniStatuslineFilename", strings = { filename } },
+            "%=",
+            { hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
+            { hl = "MiniStatuslineFileinfo", strings = { search } },
+            { hl = mode_hl, strings = { location } },
+          })
+        end,
+      },
+    })
 
     -----------------------------------------------------------
     -- Starter
@@ -191,7 +246,9 @@ return {
       },
       windows = {
         preview = true,
-        width_preview = 40,
+        width_focus = 30,
+        width_nofocus = 15,
+        width_preview = 80,
       },
     })
 
@@ -273,7 +330,12 @@ return {
       desc = "Wipeout buffer"
     },
     -- Diff
-    { "<leader>go", function() MiniDiff.toggle_overlay() end,              desc = "Toggle diff overlay" },
+    { "<leader>go", function() MiniDiff.toggle_overlay() end, desc = "Toggle diff overlay" },
+    -- Git
+    { "<leader>gc", function() MiniGit.show_at_cursor() end, desc = "Git show at cursor" },
+    { "<leader>gl", "<cmd>Git log --oneline<cr>", desc = "Git log" },
+    { "<leader>gL", "<cmd>Git log --oneline --follow -- %<cr>", desc = "Git log (current file)" },
+    { "<leader>gb", "<cmd>Git blame -- %<cr>", desc = "Git blame" },
     -- Files
     {
       "<leader>e",

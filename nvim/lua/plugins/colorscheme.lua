@@ -1,4 +1,33 @@
 return
+-- evergarden
+-- good backgrounds: https://github.com/Apeiros-46B/everforest-walls/tree/main/nature
+{
+  'everviolet/nvim',
+  name = 'evergarden',
+  lazy = false,
+  priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
+  opts = {
+    theme = {
+      variant = 'fall', -- 'winter'|'fall'|'spring'|'summer'
+      accent = 'green',
+    },
+    editor = {
+      transparent_background = true,
+      sign = { color = 'none' },
+      float = {
+        color = 'mantle',
+        solid_border = false,
+      },
+      completion = {
+        color = 'surface0',
+      },
+    },
+  },
+  config = function(_, opts)
+    require('evergarden').setup(opts)
+    vim.cmd.colorscheme('evergarden')
+  end,
+}
 -- nightfox (nordfox variant)
 -- {
 --   "EdenEast/nightfox.nvim",
@@ -110,19 +139,19 @@ return
 --   end,
 -- }
 --  Kanagawa
-{
-  "rebelot/kanagawa.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require("kanagawa").setup({
-      transparent = true, -- do not set background color
-      dimInactive = true, -- dim inactive window `:h hl-NormalNC`
-    })
-
-    vim.cmd.colorscheme("kanagawa-wave")
-  end,
-}
+-- {
+--   "rebelot/kanagawa.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("kanagawa").setup({
+--       transparent = true, -- do not set background color
+--       dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+--     })
+--
+--     vim.cmd.colorscheme("kanagawa-wave")
+--   end,
+-- }
 -- Nordic
 -- {
 --   "AlexvZyl/nordic.nvim",
