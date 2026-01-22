@@ -10,7 +10,6 @@ vim.lsp.enable('expert')
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('tailwindcss_ls')
 
-
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local map = function(mode, lhs, rhs, desc)

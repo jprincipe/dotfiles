@@ -7,14 +7,13 @@ map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 -- Quit
 map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 
--- Buffers
+-- Buffers (note: <leader>bd handled by mini.bufremove)
 map("n", "<leader>bb", "<cmd>e #<CR>", { desc = "Switch to other buffer" })
-map("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Delete buffer" })
 map("n", "<leader>bD", "<cmd>bdelete<CR><cmd>close<CR>", { desc = "Delete buffer and window" })
 map("n", "<leader>bo", "<cmd>%bdelete|edit #|bdelete #<CR>", { desc = "Delete other buffers" })
 
 -- Window commands
-map("n", "<leader>wd", "<cmd>bdelete<CR>", { desc = "Delete buffer" })
+map("n", "<leader>wd", "<cmd>close<CR>", { desc = "Close window" })
 map("n", "<leader>wh", "<C-w>h", { desc = "Go to left window" })
 map("n", "<leader>wj", "<C-w>j", { desc = "Go to lower window" })
 map("n", "<leader>wk", "<C-w>k", { desc = "Go to upper window" })

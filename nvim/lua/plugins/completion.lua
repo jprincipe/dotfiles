@@ -6,6 +6,9 @@ return {
     "rafamadriz/friendly-snippets",
   },
   opts = {
+    enabled = function()
+      return vim.bo.buftype ~= "prompt" and vim.bo.filetype ~= "minipick"
+    end,
     keymap = {
       preset = "default",
       ["<C-k>"] = { "select_prev", "fallback" },
