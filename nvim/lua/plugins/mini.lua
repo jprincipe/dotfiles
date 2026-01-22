@@ -23,8 +23,14 @@ return {
           -- Mode with full names
           local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
           local mode_names = {
-            n = "NORMAL", i = "INSERT", v = "VISUAL", V = "V-LINE",
-            ["\22"] = "V-BLOCK", c = "COMMAND", R = "REPLACE", t = "TERMINAL",
+            n = "NORMAL",
+            i = "INSERT",
+            v = "VISUAL",
+            V = "V-LINE",
+            ["\22"] = "V-BLOCK",
+            c = "COMMAND",
+            R = "REPLACE",
+            t = "TERMINAL",
           }
           mode = mode_names[vim.fn.mode()] or mode
 
@@ -54,15 +60,15 @@ return {
           local search = statusline.section_searchcount({ trunc_width = 75 })
 
           return statusline.combine_groups({
-            { hl = mode_hl, strings = { mode } },
-            { hl = "DiagnosticError", strings = { recording } },
+            { hl = mode_hl,                 strings = { mode } },
+            { hl = "DiagnosticError",       strings = { recording } },
             { hl = "MiniStatuslineDevinfo", strings = { git, diff } },
             "%<",
             { hl = "MiniStatuslineFilename", strings = { filename } },
             "%=",
-            { hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
+            { hl = "MiniStatuslineDevinfo",  strings = { diagnostics } },
             { hl = "MiniStatuslineFileinfo", strings = { search } },
-            { hl = mode_hl, strings = { location } },
+            { hl = mode_hl,                  strings = { location } },
           })
         end,
       },
@@ -304,38 +310,65 @@ return {
         vim.b.minicursorword_disable = true
       end,
     })
+
+    -----------------------------------------------------------
+    -- Pick (Fuzzy finder)
+    -----------------------------------------------------------
+    require("mini.pick").setup({
+      mappings = {
+        move_down = "<C-j>",
+        move_up = "<C-k>",
+        paste_clipboard = {
+          char = "<C-v>",
+          func = function()
+            local clipboard = vim.fn.getreg("+")
+            MiniPick.set_picker_query(vim.split(clipboard, "\n"))
+          end,
+        },
+      },
+      options = {
+        use_cache = true,
+      },
+    })
+
+    -----------------------------------------------------------
+    -- Extra (Additional pickers and utilities)
+    -----------------------------------------------------------
+    require("mini.extra").setup()
   end,
   keys = {
     -- Bufremove (creates empty buffer if closing last one)
     {
       "<leader>bd",
       function()
+        local buf = vim.api.nvim_get_current_buf()
         local bufs = vim.tbl_filter(function(b)
           return vim.bo[b].buflisted and vim.bo[b].buftype == ""
         end, vim.api.nvim_list_bufs())
         if #bufs <= 1 then vim.cmd("enew") end
-        MiniBufremove.delete()
+        MiniBufremove.delete(buf)
       end,
       desc = "Delete buffer"
     },
     {
       "<leader>bw",
       function()
+        local buf = vim.api.nvim_get_current_buf()
         local bufs = vim.tbl_filter(function(b)
           return vim.bo[b].buflisted and vim.bo[b].buftype == ""
         end, vim.api.nvim_list_bufs())
         if #bufs <= 1 then vim.cmd("enew") end
-        MiniBufremove.wipeout()
+        MiniBufremove.wipeout(buf)
       end,
       desc = "Wipeout buffer"
     },
     -- Diff
-    { "<leader>go", function() MiniDiff.toggle_overlay() end, desc = "Toggle diff overlay" },
+    { "<leader>go", function() MiniDiff.toggle_overlay() end,   desc = "Toggle diff overlay" },
     -- Git
-    { "<leader>gc", function() MiniGit.show_at_cursor() end, desc = "Git show at cursor" },
-    { "<leader>gl", "<cmd>Git log --oneline<cr>", desc = "Git log" },
+    { "<leader>gc", function() MiniGit.show_at_cursor() end,    desc = "Git show at cursor" },
+    { "<leader>gl", "<cmd>Git log --oneline<cr>",               desc = "Git log" },
     { "<leader>gL", "<cmd>Git log --oneline --follow -- %<cr>", desc = "Git log (current file)" },
-    { "<leader>gb", "<cmd>Git blame -- %<cr>", desc = "Git blame" },
+    { "<leader>gb", "<cmd>Git blame -- %<cr>",                  desc = "Git blame" },
     -- Files
     {
       "<leader>e",
@@ -371,7 +404,7 @@ return {
       end,
       desc = "Save session"
     },
-    { "<leader>sl", function() MiniSessions.select() end, desc = "Load session" },
+    { "<leader>sl", function() MiniSessions.select() end,                  desc = "Load session" },
     {
       "<leader>sR",
       function()
@@ -384,5 +417,24 @@ return {
       end,
       desc = "Restore session (cwd)"
     },
+    -- Pick
+    { "<leader>ff", function() MiniPick.builtin.files({ tool = "git" }) end,                      desc = "Find files" },
+    { "<leader>fg", function() MiniPick.builtin.grep_live() end,                                  desc = "Live grep" },
+    { "<leader>fb", function() MiniPick.builtin.buffers() end,                                    desc = "Buffers" },
+    { "<leader>fh", function() MiniPick.builtin.help() end,                                       desc = "Help tags" },
+    { "<leader>fr", function() MiniPick.builtin.resume() end,                                     desc = "Resume picker" },
+    { "<leader>fo", function() MiniExtra.pickers.oldfiles() end,                                  desc = "Recent files" },
+    { "<leader>fc", function() MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") }) end, desc = "Find word under cursor" },
+    { "<leader>fd", function() MiniExtra.pickers.diagnostic() end,                                desc = "Diagnostics" },
+    { "<leader>fs", function() MiniExtra.pickers.lsp({ scope = "document_symbol" }) end,          desc = "Document symbols" },
+    { "<leader>fk", function() MiniExtra.pickers.keymaps() end,                                   desc = "Keymaps" },
+    { "<leader>f:", function() MiniExtra.pickers.commands() end,                                  desc = "Commands" },
+    { "<leader>f/", function() MiniExtra.pickers.buf_lines() end,                                 desc = "Buffer lines" },
+    { "<leader>fm", function() MiniExtra.pickers.marks() end,                                     desc = "Marks" },
+    { "<leader>f\"", function() MiniExtra.pickers.registers() end,                               desc = "Registers" },
+    -- Git pickers
+    { "<leader>gB", function() MiniExtra.pickers.git_branches() end,                              desc = "Git branches" },
+    { "<leader>gC", function() MiniExtra.pickers.git_commits() end,                               desc = "Git commits" },
+    { "<leader>gH", function() MiniExtra.pickers.git_hunks() end,                                 desc = "Git hunks" },
   },
 }
