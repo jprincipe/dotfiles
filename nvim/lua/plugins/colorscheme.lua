@@ -1,66 +1,67 @@
 return
 -- evergarden
--- good backgrounds: https://github.com/Apeiros-46B/everforest-walls/tree/main/nature
-{
-  'everviolet/nvim',
-  name = 'evergarden',
-  lazy = false,
-  priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
-  opts = {
-    theme = {
-      variant = 'fall', -- 'winter'|'fall'|'spring'|'summer'
-      accent = 'green',
-    },
-    editor = {
-      transparent_background = true,
-      sign = { color = 'none' },
-      float = {
-        color = 'mantle',
-        solid_border = false,
-      },
-      completion = {
-        color = 'surface0',
-      },
-    },
-  },
-  config = function(_, opts)
-    require('evergarden').setup(opts)
-    vim.cmd.colorscheme('evergarden')
-  end,
-}
--- nightfox (nordfox variant)
+-- wallpapers: https://github.com/Apeiros-46B/everforest-walls/tree/main/nature
 -- {
---   "EdenEast/nightfox.nvim",
+--   'everviolet/nvim',
+--   name = 'evergarden',
 --   lazy = false,
---   priority = 1000, -- make sure to load this before all the other start plugins
---   config = function()
---     require("nightfox").setup({
---       options = {
---         transparent = false, -- Enable transparent background
---         dim_inactive = true, -- Non-focused panes set to alternative background
---         styles = {
---           comments = "italic",
---           conditionals = "NONE",
---           constants = "NONE",
---           functions = "NONE",
---           keywords = "italic",
---           numbers = "NONE",
---           operators = "NONE",
---           strings = "NONE",
---           types = "italic",
---           variables = "NONE",
---         },
---         modules = {
---           diagnostic = {
---             enable = true,
---             background = true,
---           },
---         },
+--   priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
+--   opts = {
+--     theme = {
+--       variant = 'fall', -- 'winter'|'fall'|'spring'|'summer'
+--       accent = 'green',
+--     },
+--     editor = {
+--       transparent_background = true,
+--       sign = { color = 'none' },
+--       float = {
+--         color = 'mantle',
+--         solid_border = false,
 --       },
---     })
---     vim.cmd.colorscheme("nordfox")
+--       completion = {
+--         color = 'surface0',
+--       },
+--     },
+--   },
+--   config = function(_, opts)
+--     require('evergarden').setup(opts)
+--     vim.cmd.colorscheme('evergarden')
 --   end,
 -- }
+-- nightfox (nordfox variant)
+-- wallpapers: https://github.com/linuxdotexe/nordic-wallpapers
+{
+  "EdenEast/nightfox.nvim",
+  lazy = false,
+  priority = 1000, -- make sure to load this before all the other start plugins
+  config = function()
+    require("nightfox").setup({
+      options = {
+        transparent = true,  -- Enable transparent background
+        dim_inactive = true, -- Non-focused panes set to alternative background
+        styles = {
+          comments = "italic",
+          conditionals = "NONE",
+          constants = "NONE",
+          functions = "NONE",
+          keywords = "italic",
+          numbers = "NONE",
+          operators = "NONE",
+          strings = "NONE",
+          types = "italic",
+          variables = "NONE",
+        },
+        modules = {
+          diagnostic = {
+            enable = true,
+            background = true,
+          },
+        },
+      },
+    })
+    vim.cmd.colorscheme("nordfox")
+  end,
+}
 -- everforest
 -- {
 --   "neanias/everforest-nvim",
@@ -145,8 +146,8 @@ return
 --   priority = 1000,
 --   config = function()
 --     require("kanagawa").setup({
---       transparent = true, -- do not set background color
---       dimInactive = true, -- dim inactive window `:h hl-NormalNC`
+--       transparent = true,  -- do not set background color
+--       dimInactive = false, -- dim inactive window `:h hl-NormalNC`
 --     })
 --
 --     vim.cmd.colorscheme("kanagawa-wave")

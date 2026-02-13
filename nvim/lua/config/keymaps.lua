@@ -10,7 +10,18 @@ map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 -- Buffers (note: <leader>bd handled by mini.bufremove)
 map("n", "<leader>bb", "<cmd>e #<CR>", { desc = "Switch to other buffer" })
 map("n", "<leader>bD", "<cmd>bdelete<CR><cmd>close<CR>", { desc = "Delete buffer and window" })
-map("n", "<leader>bo", "<cmd>%bdelete|edit #|bdelete #<CR>", { desc = "Delete other buffers" })
+map("n", "<leader>bo", function()
+  local current = vim.api.nvim_get_current_buf()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= current and vim.api.nvim_buf_is_loaded(buf) then
+      local name = vim.api.nvim_buf_get_name(buf)
+      -- Only delete buffers backed by real files
+      if vim.bo[buf].buflisted and vim.bo[buf].buftype == "" and name ~= "" and vim.uv.fs_stat(name) then
+        vim.api.nvim_buf_delete(buf, {})
+      end
+    end
+  end
+end, { desc = "Delete other buffers" })
 
 -- Window commands
 map("n", "<leader>wd", "<cmd>close<CR>", { desc = "Close window" })
@@ -32,6 +43,9 @@ map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
 map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
+-- Exit terminal mode with double Escape
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
 -- Terminal mode window navigation
 map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Go to left window" })
 map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Go to lower window" })
@@ -52,9 +66,9 @@ map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 map("v", "<", "<gv", { desc = "Indent left" })
 map("v", ">", ">gv", { desc = "Indent right" })
 
--- Keep cursor centered when scrolling
-map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
-map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+-- Half-page scrolling
+map("n", "<C-d>", "<C-d>", { desc = "Scroll down" })
+map("n", "<C-u>", "<C-u>", { desc = "Scroll up" })
 
 -- Keep search terms centered
 map("n", "n", "nzzzv", { desc = "Next search result centered" })
@@ -117,12 +131,127 @@ end
 map({ "n", "v" }, "<leader>yf", copy_file_path, { noremap = true, silent = true, desc = "Copy file path" })
 map({ "n", "v" }, "<leader>yl", copy_path_with_lines, { noremap = true, silent = true, desc = "Copy file path with line numbers" })
 
--- Tabs
-map("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "New tab" })
-map("n", "<leader>td", "<cmd>tabclose<CR>", { desc = "Close tab" })
-map("n", "<leader>t]", "<cmd>tabnext<CR>", { desc = "Next tab" })
-map("n", "<leader>t[", "<cmd>tabprev<CR>", { desc = "Previous tab" })
-map("n", "<leader>to", "<cmd>tabonly<CR>", { desc = "Close other tabs" })
+-- Tab keymaps defined in plugins/tabby.lua
+
+-- Terminal toggle
+local term_buf = nil
+local term_win = nil
+
+local function find_term_win()
+  if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.api.nvim_win_get_buf(win) == term_buf then
+        return win
+      end
+    end
+  end
+  return nil
+end
+
+local function toggle_terminal()
+  term_win = find_term_win()
+
+  if term_win then
+    vim.api.nvim_win_hide(term_win)
+    term_win = nil
+    return
+  end
+
+  local height = math.floor(vim.o.lines * 0.4)
+  vim.cmd("botright " .. height .. "split")
+  if term_buf and vim.api.nvim_buf_is_valid(term_buf) then
+    vim.api.nvim_win_set_buf(0, term_buf)
+  else
+    vim.cmd("terminal")
+    term_buf = vim.api.nvim_get_current_buf()
+  end
+  term_win = vim.api.nvim_get_current_win()
+  vim.cmd("startinsert")
+end
+
+map("n", "<C-/>", toggle_terminal, { desc = "Toggle terminal" })
+map("t", "<C-/>", toggle_terminal, { desc = "Toggle terminal" })
+
+-- Open file from terminal output (use gf in terminal normal mode)
+local function open_file_from_terminal()
+  local line = vim.api.nvim_get_current_line()
+  line = line:gsub("\27%[[%d;]*m", "") -- strip ANSI escape codes
+
+  -- Find the space-delimited token under the cursor
+  local col = vim.api.nvim_win_get_cursor(0)[2] + 1
+  local token
+  for s, t, e in line:gmatch("()(%S+)()") do
+    if col >= s and col < e then
+      token = t
+      break
+    end
+  end
+
+  if not token then
+    vim.notify("No file path found", vim.log.levels.WARN)
+    return
+  end
+
+  -- Parse file:line:col or file:line from token
+  local file, lnum
+  local f, l = token:match("^(.+):(%d+):%d+")
+  if not f then
+    f, l = token:match("^(.+):(%d+)")
+  end
+  file = f or token
+  lnum = l and tonumber(l) or nil
+  file = file:gsub("[,;:]+$", "")
+
+  -- Resolve relative to Neovim's CWD first, then terminal's CWD
+  local fullpath = vim.fn.fnamemodify(file, ":p")
+  if vim.fn.filereadable(fullpath) == 0 then
+    local pid = vim.b.terminal_job_pid
+    if pid then
+      local output = vim.fn.system({ "lsof", "-a", "-p", tostring(pid), "-d", "cwd", "-Fn" })
+      local tcwd = output:match("n(.-)\n")
+      if tcwd then
+        fullpath = tcwd .. "/" .. file
+      end
+    end
+  end
+  if vim.fn.filereadable(fullpath) == 0 then
+    vim.notify("File not found: " .. file, vim.log.levels.WARN)
+    return
+  end
+
+  -- Find a non-terminal window to open the file in
+  local target_win
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].buftype ~= "terminal" then
+      target_win = win
+      break
+    end
+  end
+
+  if not target_win then
+    vim.cmd("above split")
+    target_win = vim.api.nvim_get_current_win()
+  end
+
+  vim.api.nvim_set_current_win(target_win)
+  vim.cmd("edit " .. vim.fn.fnameescape(fullpath))
+  if lnum then
+    vim.api.nvim_win_set_cursor(target_win, { lnum, 0 })
+    vim.cmd("normal! zz")
+  end
+end
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = vim.api.nvim_create_augroup("TerminalGf", { clear = true }),
+  callback = function(event)
+    vim.keymap.set("n", "gf", open_file_from_terminal, { buffer = event.buf, desc = "Open file under cursor" })
+    vim.keymap.set("t", "<C-g>", function()
+      vim.cmd.stopinsert()
+      vim.schedule(open_file_from_terminal)
+    end, { buffer = event.buf, desc = "Open file under cursor" })
+  end,
+})
 
 -- Lazy
 map("n", "<leader>l", "<cmd>Lazy<CR>", { desc = "Lazy" })

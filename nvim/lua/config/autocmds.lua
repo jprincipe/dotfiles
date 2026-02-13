@@ -71,3 +71,32 @@ autocmd("BufWritePre", {
     vim.lsp.buf.format({ async = false })
   end,
 })
+
+-- Focused window indicators
+augroup("FocusedWindow", { clear = true })
+-- Cursorline only in focused window
+autocmd({ "WinEnter", "BufEnter" }, {
+  group = "FocusedWindow",
+  callback = function()
+    vim.opt_local.cursorline = true
+  end,
+})
+autocmd("WinLeave", {
+  group = "FocusedWindow",
+  callback = function()
+    vim.opt_local.cursorline = false
+  end,
+})
+
+-- Normalize buffer names to relative paths
+-- augroup("RelativeBufferPaths", { clear = true })
+-- autocmd("BufAdd", {
+--   group = "RelativeBufferPaths",
+--   callback = function(args)
+--     local name = vim.api.nvim_buf_get_name(args.buf)
+--     local cwd = vim.fn.getcwd()
+--     if name ~= "" and vim.startswith(name, cwd) then
+--       vim.api.nvim_buf_set_name(args.buf, vim.fn.fnamemodify(name, ":."))
+--     end
+--   end,
+-- })
