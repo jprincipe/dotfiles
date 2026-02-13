@@ -1,8 +1,10 @@
 # themes
-# theme = "nordic"
+theme = "nordic"
 # theme = "kanagawa"
 # background = "#2A2A37"
-theme = everforest-dark
+# theme = everforest-dark
+selection-background = #88c0d0
+selection-foreground = #2e3440
 background-opacity = 0.95
 background-blur-radius = 10
 alpha-blending = linear-corrected
@@ -26,10 +28,10 @@ clipboard-paste-protection = false
 scrollback-limit = 10000000
 
 # window settings
-macos-non-native-fullscreen = true
+# macos-non-native-fullscreen = true
 macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
-macos-window-buttons = hidden
+# macos-window-buttons = hidden
 window-save-state = always
 window-colorspace = "display-p3"
 window-inherit-font-size = false
@@ -38,14 +40,14 @@ window-title-font-family = "Maple Mono NF"
 mouse-hide-while-typing = true
 
 # quick terminal
-quick-terminal-position = center
-quick-terminal-size = 75%,75%
-quick-terminal-animation-duration = 0
-quick-terminal-autohide = false
+# quick-terminal-position = center
+# quick-terminal-size = 75%,75%
+# quick-terminal-animation-duration = 0
+# quick-terminal-autohide = false
 
 # keybinds
 macos-option-as-alt = true
-keybind = global:super+/=toggle_quick_terminal
+# keybind = global:super+/=toggle_quick_terminal
 keybind = shift+enter=text:\n
 
 # use dev builds
