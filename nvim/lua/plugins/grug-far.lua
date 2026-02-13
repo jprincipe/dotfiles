@@ -27,5 +27,21 @@ return {
   },
   opts = {
     headerMaxWidth = 80,
+    keymaps = {
+      replace = { n = "\\r" },
+      qflist = { n = "\\q" },
+      syncLocations = { n = "\\s" },
+      syncLine = { n = "\\l" },
+      close = { n = "\\c" },
+      historyOpen = { n = "\\t" },
+      historyAdd = { n = "\\a" },
+      refresh = { n = "\\f" },
+      openLocation = { n = "\\o" },
+      gotoLocation = { n = "<enter>" },
+      pickHistoryEntry = { n = "<enter>" },
+      abort = { n = "\\b" },
+      toggleShowCommand = { n = "\\p" },
+      swapEngine = { n = "\\e" },
+    },
   },
 }

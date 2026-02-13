@@ -19,6 +19,12 @@ return {
     local statusline = require("mini.statusline")
     statusline.setup({
       content = {
+        inactive = function()
+          local filename = statusline.section_filename({ trunc_width = 140 })
+          return statusline.combine_groups({
+            { hl = "StatusLineNC", strings = { filename } },
+          })
+        end,
         active = function()
           -- Mode with full names
           local mode, mode_hl = statusline.section_mode({ trunc_width = 120 })
@@ -335,6 +341,11 @@ return {
     -- Extra (Additional pickers and utilities)
     -----------------------------------------------------------
     require("mini.extra").setup()
+
+    -----------------------------------------------------------
+    -- Visits (Track file visits for frecency sorting)
+    -----------------------------------------------------------
+    require("mini.visits").setup()
   end,
   keys = {
     -- Bufremove (creates empty buffer if closing last one)
@@ -418,23 +429,38 @@ return {
       desc = "Restore session (cwd)"
     },
     -- Pick
-    { "<leader>ff", function() MiniPick.builtin.files({ tool = "git" }) end,                      desc = "Find files" },
-    { "<leader>fg", function() MiniPick.builtin.grep_live() end,                                  desc = "Live grep" },
-    { "<leader>fb", function() MiniPick.builtin.buffers() end,                                    desc = "Buffers" },
-    { "<leader>fh", function() MiniPick.builtin.help() end,                                       desc = "Help tags" },
-    { "<leader>fr", function() MiniPick.builtin.resume() end,                                     desc = "Resume picker" },
-    { "<leader>fo", function() MiniExtra.pickers.oldfiles() end,                                  desc = "Recent files" },
-    { "<leader>fc", function() MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") }) end, desc = "Find word under cursor" },
-    { "<leader>fd", function() MiniExtra.pickers.diagnostic() end,                                desc = "Diagnostics" },
-    { "<leader>fs", function() MiniExtra.pickers.lsp({ scope = "document_symbol" }) end,          desc = "Document symbols" },
-    { "<leader>fk", function() MiniExtra.pickers.keymaps() end,                                   desc = "Keymaps" },
-    { "<leader>f:", function() MiniExtra.pickers.commands() end,                                  desc = "Commands" },
-    { "<leader>f/", function() MiniExtra.pickers.buf_lines() end,                                 desc = "Buffer lines" },
-    { "<leader>fm", function() MiniExtra.pickers.marks() end,                                     desc = "Marks" },
-    { "<leader>f\"", function() MiniExtra.pickers.registers() end,                               desc = "Registers" },
+    { "<leader>ff", function() MiniPick.builtin.files({ tool = "git" }) end, desc = "Find files" },
+    { "<leader>fg", function() MiniPick.builtin.grep_live() end,             desc = "Live grep" },
+    {
+      "<leader>fb",
+      function()
+        local buffers = {}
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          local name = vim.api.nvim_buf_get_name(buf)
+          -- Only include buffers backed by real files
+          if vim.bo[buf].buflisted and vim.bo[buf].buftype == "" and name ~= "" and vim.uv.fs_stat(name) then
+            table.insert(buffers, buf)
+          end
+        end
+        MiniPick.builtin.buffers({ include_current = true }, { source = { items = buffers } })
+      end,
+      desc = "Buffers"
+    },
+    { "<leader>fh",  function() MiniPick.builtin.help() end,                                       desc = "Help tags" },
+    { "<leader>fr",  function() MiniPick.builtin.resume() end,                                     desc = "Resume picker" },
+    { "<leader>fo",  function() MiniExtra.pickers.oldfiles() end,                                  desc = "Recent files" },
+    { "<leader>fv",  function() MiniExtra.pickers.visit_paths() end,                               desc = "Visited files (frecency)" },
+    { "<leader>fc",  function() MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") }) end, desc = "Find word under cursor" },
+    { "<leader>fd",  function() MiniExtra.pickers.diagnostic() end,                                desc = "Diagnostics" },
+    { "<leader>fs",  function() MiniExtra.pickers.lsp({ scope = "document_symbol" }) end,          desc = "Document symbols" },
+    { "<leader>fk",  function() MiniExtra.pickers.keymaps() end,                                   desc = "Keymaps" },
+    { "<leader>f:",  function() MiniExtra.pickers.commands() end,                                  desc = "Commands" },
+    { "<leader>f/",  function() MiniExtra.pickers.buf_lines() end,                                 desc = "Buffer lines" },
+    { "<leader>fm",  function() MiniExtra.pickers.marks() end,                                     desc = "Marks" },
+    { "<leader>f\"", function() MiniExtra.pickers.registers() end,                                 desc = "Registers" },
     -- Git pickers
-    { "<leader>gB", function() MiniExtra.pickers.git_branches() end,                              desc = "Git branches" },
-    { "<leader>gC", function() MiniExtra.pickers.git_commits() end,                               desc = "Git commits" },
-    { "<leader>gH", function() MiniExtra.pickers.git_hunks() end,                                 desc = "Git hunks" },
+    { "<leader>gB",  function() MiniExtra.pickers.git_branches() end,                              desc = "Git branches" },
+    { "<leader>gC",  function() MiniExtra.pickers.git_commits() end,                               desc = "Git commits" },
+    { "<leader>gH",  function() MiniExtra.pickers.git_hunks() end,                                 desc = "Git hunks" },
   },
 }
