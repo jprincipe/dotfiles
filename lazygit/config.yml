@@ -1,31 +1,32 @@
 gui:
-  # Use a theme with better contrast for Nordic colorscheme
+  # Nordfox colorscheme
   theme:
-    # Default text color - use brighter white for better visibility
+    # Default text color - nordfox fg
     defaultFgColor:
-      - "#ECEFF4"
-    # Selected line background - make it more distinct
+      - "#cdcecf"
+    # Selected line background - nordfox sel0
     selectedLineBgColor:
-      - "#434C5E"
-    # Selected line text - bright white
+      - "#3e4a5b"
+    # Selected range background - nordfox sel1
     selectedRangeBgColor:
-      - "#5E81AC"
-    # Cherry picked commit background
+      - "#4f6074"
+    # Cherry picked commit
     cherryPickedCommitFgColor:
-      - "#88C0D0"
+      - "#81a1c1"
     cherryPickedCommitBgColor:
-      - "#3B4252"
-    # Untracked file color
+      - "#2e3440"
+    # Untracked/unstaged file color - nordfox red
     unstagedChangesColor:
-      - "#BF616A"
-    # Options/info text
+      - "#bf616a"
+    # Options/info text - nordfox blue
     optionsTextColor:
-      - "#81A1C1"
-    # Search highlighting
+      - "#81a1c1"
+    # Search highlighting - nordfox yellow
     searchingActiveBorderColor:
-      - "#EBCB8B"
-    # Inline additions in diff view
+      - "#ebcb8b"
+    # Active border - nordfox cyan
     activeBorderColor:
-      - "#88C0D0"
+      - "#88c0d0"
+    # Inactive border - nordfox bg3
     inactiveBorderColor:
-      - "#4C566A"
+      - "#444c5e"
