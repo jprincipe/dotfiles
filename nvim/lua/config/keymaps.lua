@@ -47,16 +47,33 @@ map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Terminal mode window navigation
-map("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Go to left window" })
-map("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Go to lower window" })
-map("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Go to upper window" })
-map("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Go to right window" })
+local function term_nav(key, dir)
+  map("t", key, "<C-\\><C-n><C-w>" .. dir, { desc = "Go to " .. dir .. " window" })
+end
+term_nav("<C-h>", "h")
+term_nav("<C-j>", "j")
+term_nav("<C-k>", "k")
+term_nav("<C-l>", "l")
 
--- Resize windows with arrows
-map("n", "<C-Up>", "<cmd>resize +2<CR>", { desc = "Increase window height" })
-map("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "Decrease window height" })
-map("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Decrease window width" })
-map("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase window width" })
+map("n", "<leader>wr", function()
+  vim.notify("Resize mode: h/j/k/l to resize, Esc to exit", vim.log.levels.INFO)
+  local step = 5
+  while true do
+    vim.cmd("redraw")
+    local key = vim.fn.getcharstr()
+    if key == "h" then
+      vim.cmd("vertical resize -" .. step)
+    elseif key == "l" then
+      vim.cmd("vertical resize +" .. step)
+    elseif key == "j" then
+      vim.cmd("resize -" .. step)
+    elseif key == "k" then
+      vim.cmd("resize +" .. step)
+    else
+      break
+    end
+  end
+end, { desc = "Resize mode (h/j/k/l)" })
 
 -- Move lines up/down in visual mode
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
@@ -79,6 +96,38 @@ map("x", "p", [["_dP]], { desc = "Paste without overwriting register" })
 
 -- New buffer
 map("n", "<leader>fn", "<cmd>enew<CR>", { desc = "New buffer" })
+
+-- Open file:line from clipboard
+map("n", "<leader>yp", function()
+  local clip = vim.fn.getreg("+")
+  -- Strip whitespace and newlines
+  clip = clip:gsub("%s+", "")
+  -- Parse file:line:col or file:line
+  local file, lnum = clip:match("^(.+):(%d+):%d+$")
+  if not file then
+    file, lnum = clip:match("^(.+):(%d+)$")
+  end
+  if not file then
+    file = clip
+  end
+  -- Try direct path first (absolute or relative to cwd)
+  local path = vim.fn.fnamemodify(file, ":p")
+  if vim.fn.filereadable(path) == 0 then
+    -- Search for the file under cwd (handles umbrella apps, monorepos, etc.)
+    local matches = vim.fn.glob(vim.fn.getcwd() .. "/**/" .. file, false, true)
+    if #matches > 0 then
+      path = matches[1]
+    else
+      vim.notify("File not found: " .. file, vim.log.levels.WARN)
+      return
+    end
+  end
+  vim.cmd("edit " .. vim.fn.fnameescape(path))
+  if lnum then
+    vim.api.nvim_win_set_cursor(0, { tonumber(lnum), 0 })
+    vim.cmd("normal! zz")
+  end
+end, { desc = "Open file:line from clipboard" })
 
 -- Format JSON with jq
 map("n", "<leader>cj", function()
@@ -129,7 +178,8 @@ local function copy_path_with_lines()
 end
 
 map({ "n", "v" }, "<leader>yf", copy_file_path, { noremap = true, silent = true, desc = "Copy file path" })
-map({ "n", "v" }, "<leader>yl", copy_path_with_lines, { noremap = true, silent = true, desc = "Copy file path with line numbers" })
+map({ "n", "v" }, "<leader>yl", copy_path_with_lines,
+  { noremap = true, silent = true, desc = "Copy file path with line numbers" })
 
 -- Tab keymaps defined in plugins/tabby.lua
 
@@ -255,4 +305,3 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- Lazy
 map("n", "<leader>l", "<cmd>Lazy<CR>", { desc = "Lazy" })
-
