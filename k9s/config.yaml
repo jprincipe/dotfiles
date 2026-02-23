@@ -12,7 +12,7 @@ k9s:
     reactive: false
     noIcons: false
     defaultsToFullScreen: false
-    skin: evergarden
+    skin: nord
   disablePodCounting: false
   shellPod:
     image: busybox:1.35.0

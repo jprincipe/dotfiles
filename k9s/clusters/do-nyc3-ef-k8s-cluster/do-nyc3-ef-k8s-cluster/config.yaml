@@ -1,0 +1,19 @@
+k9s:
+  cluster: do-nyc3-ef-k8s-cluster
+  namespace:
+    active: default
+    lockFavorites: false
+    favorites:
+      - kube-system
+      - kube-public
+      - kube-node-lease
+      - metrics-server
+      - cert-manager
+      - all
+      - default
+      - kube-prometheus-stack
+  view:
+    active: apps/v1/deployments default
+  featureGates:
+    nodeShell: false
+  proxy: null
