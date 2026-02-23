@@ -307,23 +307,17 @@ return {
     })
 
     -----------------------------------------------------------
-    -- Cursorword (Highlight word under cursor)
-    -----------------------------------------------------------
-    require("mini.cursorword").setup()
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "minifiles", "lazy", "mason", "starter" },
-      callback = function()
-        vim.b.minicursorword_disable = true
-      end,
-    })
-
-    -----------------------------------------------------------
     -- Pick (Fuzzy finder)
     -----------------------------------------------------------
     require("mini.pick").setup({
       mappings = {
         move_down = "<C-j>",
         move_up = "<C-k>",
+        mark = "<C-x>",
+        mark_all = "<C-a>",
+        choose_marked = "<C-q>",
+        refine = "<C-Space>",
+        refine_marked = "<M-Space>",
         paste_clipboard = {
           char = "<C-v>",
           func = function()
@@ -429,20 +423,58 @@ return {
       desc = "Restore session (cwd)"
     },
     -- Pick
-    { "<leader>ff", function() MiniPick.builtin.files({ tool = "git" }) end, desc = "Find files" },
-    { "<leader>fg", function() MiniPick.builtin.grep_live() end,             desc = "Live grep" },
+    {
+      "<leader>ff",
+      function()
+        local in_git = vim.fn.system("git rev-parse --is-inside-work-tree"):find("true")
+        MiniPick.builtin.files({ tool = in_git and "git" or "rg" })
+      end,
+      desc = "Find files"
+    },
+    { "<leader>fg",  function() MiniPick.builtin.grep_live() end,                                  desc = "Live grep" },
+    {
+      "<leader>fG",
+      function()
+        local glob = vim.fn.input("Glob: ", "**/*.")
+        if glob ~= "" then
+          MiniPick.builtin.grep_live({ globs = { glob } })
+        end
+      end,
+      desc = "Live grep (filtered)"
+    },
     {
       "<leader>fb",
       function()
+        local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+        table.sort(bufs, function(a, b) return a.lastused > b.lastused end)
         local buffers = {}
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-          local name = vim.api.nvim_buf_get_name(buf)
-          -- Only include buffers backed by real files
-          if vim.bo[buf].buflisted and vim.bo[buf].buftype == "" and name ~= "" and vim.uv.fs_stat(name) then
-            table.insert(buffers, buf)
+        for _, info in ipairs(bufs) do
+          if vim.bo[info.bufnr].buftype == "" and info.name ~= "" and vim.uv.fs_stat(info.name) then
+            table.insert(buffers, info.bufnr)
           end
         end
-        MiniPick.builtin.buffers({ include_current = true }, { source = { items = buffers } })
+        MiniPick.builtin.buffers({ include_current = true }, {
+          mappings = {
+            wipeout = {
+              char = "<C-d>",
+              func = function()
+                local items = MiniPick.get_picker_matches() or {}
+                local current = items.current
+                if current then
+                  local buf = current.bufnr or current
+                  MiniBufremove.wipeout(buf)
+                  local new_items = {}
+                  for _, item in ipairs(items.all or {}) do
+                    local b = item.bufnr or item
+                    if b ~= buf then table.insert(new_items, item) end
+                  end
+                  MiniPick.set_picker_items(new_items)
+                end
+              end,
+            },
+          },
+          source = { items = buffers },
+        })
       end,
       desc = "Buffers"
     },
