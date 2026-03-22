@@ -2,7 +2,7 @@
 
 add_newline = true
 command_timeout = 200
-format = "$directory$git_branch$time$character"
+format = "$directory$git_branch$kubernetes$time$character"
 # right_format = "$time"
 
 [time]
@@ -24,8 +24,13 @@ repo_root_style = "bold #a3be8c"
 repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
-format = "[$branch]($style) "
+format = " [$branch]($style) "
 style = "bold #ebcb8b"
+
+[kubernetes]
+disabled = false
+format = "󱃾 [$context]($style) "
+style = "bold #d08770"
 
 # add_newline = true
 # continuation_prompt = "[▸▹ ](dimmed white)"
