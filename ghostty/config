@@ -51,7 +51,7 @@ macos-option-as-alt = true
 keybind = shift+enter=text:\n
 
 # use dev builds
-auto-update-channel = tip
+# auto-update-channel = tip
 
 # cursor settings
 cursor-style = block
