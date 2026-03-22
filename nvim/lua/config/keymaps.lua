@@ -13,12 +13,8 @@ map("n", "<leader>bD", "<cmd>bdelete<CR><cmd>close<CR>", { desc = "Delete buffer
 map("n", "<leader>bo", function()
   local current = vim.api.nvim_get_current_buf()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if buf ~= current and vim.api.nvim_buf_is_loaded(buf) then
-      local name = vim.api.nvim_buf_get_name(buf)
-      -- Only delete buffers backed by real files
-      if vim.bo[buf].buflisted and vim.bo[buf].buftype == "" and name ~= "" and vim.uv.fs_stat(name) then
-        vim.api.nvim_buf_delete(buf, {})
-      end
+    if buf ~= current and vim.bo[buf].buflisted then
+      pcall(vim.api.nvim_buf_delete, buf, {})
     end
   end
 end, { desc = "Delete other buffers" })
@@ -295,6 +291,7 @@ end
 vim.api.nvim_create_autocmd("TermOpen", {
   group = vim.api.nvim_create_augroup("TerminalGf", { clear = true }),
   callback = function(event)
+    vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "gf", open_file_from_terminal, { buffer = event.buf, desc = "Open file under cursor" })
     vim.keymap.set("t", "<C-g>", function()
       vim.cmd.stopinsert()
