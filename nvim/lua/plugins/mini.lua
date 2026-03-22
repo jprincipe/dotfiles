@@ -86,24 +86,17 @@ return {
     local starter = require("mini.starter")
     starter.setup({
       header = [[
-          _____                    _____
-         /\    \                  /\    \
-        /::\    \                /::\    \
-        \:::\    \              /::::\    \
-         \:::\    \            /::::::\    \
-          \:::\    \          /:::/\:::\    \
-           \:::\    \        /:::/__\:::\    \
-           /::::\    \      /::::\   \:::\    \
-  _____   /::::::\    \    /::::::\   \:::\    \
- /\    \ /:::/\:::\    \  /:::/\:::\   \:::\____\
-/::\    /:::/  \:::\____\/:::/  \:::\   \:::|    |
-\:::\  /:::/    \::/    /\::/    \:::\  /:::|____|
- \:::\/:::/    / \/____/  \/_____/\:::\/:::/    /
-  \::::::/    /                    \::::::/    /
-   \::::/    /                      \::::/    /
-    \::/    /                        \::/____/
-     \/____/                          ~~
+ .-._           ,----.     _,.---._           ,-.-. .=-.-.       ___
+/==/ \  .-._ ,-.--` , \  ,-.' , -  `.  ,--.-./=/ ,//==/_ /.-._ .'=.'\
+|==|, \/ /, /==|-  _.-` /==/_,  ,  - \/==/, ||=| -|==|, |/==/ \|==|  |
+|==|-  \|  ||==|   `.-.|==|   .=.     \==\,  \ / ,|==|  ||==|,|  / - |
+|==| ,  | -/==/_ ,    /|==|_ : ;=:  - |\==\ - ' - /==|- ||==|  \/  , |
+|==| -   _ |==|    .-' |==| , '='     | \==\ ,   ||==| ,||==|- ,   _ |
+|==|  /\ , |==|_  ,`-._ \==\ -    ,_ /  |==| -  ,/|==|- ||==| _ /\   |
+/==/, | |- /==/ ,     /  '.='. -   .'   \==\  _ / /==/. //==/  / / , /
+`--`./  `--`--`-----``     `--`--''      `--`--'  `--`-` `--`./  `--`
 ]],
+
       items = {
         starter.sections.builtin_actions(),
         starter.sections.recent_files(5, false),
@@ -386,18 +379,8 @@ return {
       end,
       desc = "Explorer (current file)"
     },
-    {
-      "-",
-      function()
-        local path = vim.api.nvim_buf_get_name(0)
-        if path == "" or not vim.uv.fs_stat(path) then
-          path = vim.fn.getcwd()
-        end
-        MiniFiles.open(path, false)
-      end,
-      desc = "Open parent directory"
-    },
-    { "<leader>E",  function() MiniFiles.open(vim.fn.getcwd(), false) end, desc = "Explorer (cwd)" },
+    { "-",         "<leader>e",                                           remap = true,           desc = "Open parent directory" },
+    { "<leader>E", function() MiniFiles.open(vim.fn.getcwd(), false) end, desc = "Explorer (cwd)" },
     -- Sessions
     {
       "<leader>ss",
@@ -409,7 +392,7 @@ return {
       end,
       desc = "Save session"
     },
-    { "<leader>sl", function() MiniSessions.select() end,                  desc = "Load session" },
+    { "<leader>sl", function() MiniSessions.select() end,        desc = "Load session" },
     {
       "<leader>sR",
       function()
@@ -426,12 +409,12 @@ return {
     {
       "<leader>ff",
       function()
-        local in_git = vim.fn.system("git rev-parse --is-inside-work-tree"):find("true")
+        local in_git = vim.fn.finddir(".git", ".;") ~= ""
         MiniPick.builtin.files({ tool = in_git and "git" or "rg" })
       end,
       desc = "Find files"
     },
-    { "<leader>fg",  function() MiniPick.builtin.grep_live() end,                                  desc = "Live grep" },
+    { "<leader>fg", function() MiniPick.builtin.grep_live() end, desc = "Live grep" },
     {
       "<leader>fG",
       function()
@@ -445,14 +428,6 @@ return {
     {
       "<leader>fb",
       function()
-        local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-        table.sort(bufs, function(a, b) return a.lastused > b.lastused end)
-        local buffers = {}
-        for _, info in ipairs(bufs) do
-          if vim.bo[info.bufnr].buftype == "" and info.name ~= "" and vim.uv.fs_stat(info.name) then
-            table.insert(buffers, info.bufnr)
-          end
-        end
         MiniPick.builtin.buffers({ include_current = true }, {
           mappings = {
             wipeout = {
@@ -473,7 +448,6 @@ return {
               end,
             },
           },
-          source = { items = buffers },
         })
       end,
       desc = "Buffers"
