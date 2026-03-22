@@ -1,0 +1,14 @@
+k9s:
+  cluster: do-nyc3-wr-cluster
+  namespace:
+    active: default
+    lockFavorites: false
+    favorites:
+      - all
+      - default
+      - buildkit
+  view:
+    active: apps/v1/deployments default
+  featureGates:
+    nodeShell: false
+  proxy: null
