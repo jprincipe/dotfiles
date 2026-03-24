@@ -28,10 +28,10 @@ clipboard-paste-protection = false
 scrollback-limit = 10000000
 
 # window settings
-# macos-non-native-fullscreen = true
-macos-titlebar-style = tabs
+macos-non-native-fullscreen = true
+macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
-# macos-window-buttons = hidden
+macos-window-buttons = hidden
 window-save-state = always
 window-colorspace = "display-p3"
 window-inherit-font-size = false

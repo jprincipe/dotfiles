@@ -37,6 +37,24 @@ export EDITOR='nvim'
 alias vi="nvim"
 alias vim="nvim"
 
+# tmux
+alias ta="tmux attach"
+alias tl="tmux list-sessions"
+alias tk="tmux kill-session -t"
+
+ts() {
+  if [ -n "$1" ] && [ -f "$HOME/.config/tmux/sessions/$1.sh" ]; then
+    bash "$HOME/.config/tmux/sessions/$1.sh" "${@:2}"
+  else
+    local scripts=("$HOME/.config/tmux/sessions"/*.sh(N))
+    if [ ${#scripts[@]} -eq 0 ]; then
+      echo "No session scripts found"; return 1
+    fi
+    local choice=$(printf '%s\n' "${scripts[@]:t:r}" | fzf --prompt="session> ")
+    [ -n "$choice" ] && bash "$HOME/.config/tmux/sessions/$choice.sh"
+  fi
+}
+
 # eza 
 alias ls="eza --color=always --icons=always"
 

@@ -33,23 +33,10 @@ map("n", "<leader>w=", "<C-w>=", { desc = "Equal window sizes" })
 map("n", "<leader>w|", "<C-w>|", { desc = "Max width" })
 map("n", "<leader>w_", "<C-w>_", { desc = "Max height" })
 
--- Better window navigation
-map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+-- Window navigation handled by smart-splits.nvim (tmux-aware)
 
 -- Exit terminal mode with double Escape
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-
--- Terminal mode window navigation
-local function term_nav(key, dir)
-  map("t", key, "<C-\\><C-n><C-w>" .. dir, { desc = "Go to " .. dir .. " window" })
-end
-term_nav("<C-h>", "h")
-term_nav("<C-j>", "j")
-term_nav("<C-k>", "k")
-term_nav("<C-l>", "l")
 
 map("n", "<leader>wr", function()
   vim.notify("Resize mode: h/j/k/l to resize, Esc to exit", vim.log.levels.INFO)
@@ -217,6 +204,8 @@ end
 
 map("n", "<C-/>", toggle_terminal, { desc = "Toggle terminal" })
 map("t", "<C-/>", toggle_terminal, { desc = "Toggle terminal" })
+map("n", "<C-_>", toggle_terminal, { desc = "Toggle terminal" })
+map("t", "<C-_>", toggle_terminal, { desc = "Toggle terminal" })
 
 -- Open file from terminal output (use gf in terminal normal mode)
 local function open_file_from_terminal()
