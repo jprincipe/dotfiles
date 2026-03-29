@@ -8,4 +8,10 @@ return {
     ---@type render.md.UserConfig
     opts = {},
   },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = "cd app && bash install.sh",
+  },
 }

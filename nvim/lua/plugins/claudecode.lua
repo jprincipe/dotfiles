@@ -45,6 +45,7 @@ end
 
 return {
   "coder/claudecode.nvim",
+  enabled = false,
   opts = {
     terminal = {
       provider = "auto",
