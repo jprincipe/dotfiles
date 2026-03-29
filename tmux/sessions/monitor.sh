@@ -1,8 +1,12 @@
 #!/bin/bash
+DETACH=false
+if [ "$1" = "-d" ]; then DETACH=true; shift; fi
+
 SESSION="monitor"
 
 # Attach if session already exists
 if tmux has-session -t "$SESSION" 2>/dev/null; then
+  [ "$DETACH" = true ] && exit 0
   tmux attach-session -t "$SESSION"
   exit 0
 fi
@@ -22,4 +26,4 @@ tmux split-window -t "$SESSION:monitor.1" -v -p 50
 tmux send-keys "btop" Enter
 
 tmux select-pane -t "$SESSION:monitor.2"
-tmux attach-session -t "$SESSION"
+[ "$DETACH" = true ] || tmux attach-session -t "$SESSION"

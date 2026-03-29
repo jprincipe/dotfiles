@@ -55,7 +55,14 @@ ts() {
   fi
 }
 
-# eza 
+tsa() {
+  bash ~/.config/tmux/sessions/monitor.sh -d
+  bash ~/.config/tmux/sessions/ef-infra.sh -d
+  bash ~/.config/tmux/sessions/dev.sh -d ~/Development/exchange-flo-app
+  tmux attach-session -t exchange-flo-app
+}
+
+# eza
 alias ls="eza --color=always --icons=always"
 
 # zoxide
@@ -69,7 +76,7 @@ eval "$(mise activate zsh)"
 eval "$(direnv hook zsh)"
 
 ######################################
-# PATH 
+# PATH
 ######################################
 
 # Update PATH to include homebrew
