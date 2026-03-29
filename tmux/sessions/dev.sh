@@ -1,16 +1,24 @@
 #!/bin/bash
-SESSION="dev"
-PROJECT_DIR="${1:-$HOME/Development/exchange-flo-app}"
+DETACH=false
+if [ "$1" = "-d" ]; then DETACH=true; shift; fi
+
+PROJECT_DIR="${1:-.}"
+PROJECT_DIR="$(cd "$PROJECT_DIR" && pwd)"
+SESSION="$(basename "$PROJECT_DIR")"
 
 # Attach if session already exists
 if tmux has-session -t "$SESSION" 2>/dev/null; then
+  [ "$DETACH" = true ] && exit 0
   tmux attach-session -t "$SESSION"
   exit 0
 fi
 
-# Window 1: editor
+# Window 1: editor (nvim 75%, claude 25%)
 tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR" -n "editor"
 tmux send-keys -t "$SESSION:editor" "nvim" Enter
+tmux split-window -t "$SESSION:editor" -h -p 25 -c "$PROJECT_DIR"
+tmux send-keys "claude" Enter
+tmux select-pane -t "$SESSION:editor.1"
 
 # Window 2: ef-apps (2x2 grid)
 tmux new-window -t "$SESSION" -n "ef-apps"
@@ -44,12 +52,6 @@ tmux split-window -t "$SESSION:wr-apps"
 tmux send-keys "cd $PROJECT_DIR/apps/wr_workers" Enter
 tmux select-layout -t "$SESSION:wr-apps" tiled
 
-# Window 4: docker
-tmux new-window -t "$SESSION" -n "docker" -c "$PROJECT_DIR"
-
-# Window 5: tunnel
-tmux new-window -t "$SESSION" -n "tunnel" -c "$PROJECT_DIR"
-
 # Focus on editor
 tmux select-window -t "$SESSION:editor"
-tmux attach-session -t "$SESSION"
+[ "$DETACH" = true ] || tmux attach-session -t "$SESSION"
