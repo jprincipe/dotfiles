@@ -45,6 +45,7 @@ opt.wrap = false
 -- Completion
 opt.completeopt = { "menu", "menuone", "noselect" }
 opt.pumheight = 10
+opt.pumborder = "single"
 
 -- Misc
 opt.confirm = true
