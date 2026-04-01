@@ -1,19 +1,44 @@
-# Tmux Session Helpers
+# Tmux Cheatsheet
 
-## Aliases
+Prefix: `Ctrl+Space`
+
+## Navigation
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+h/j/k/l` | Move between panes (vim-aware, works inside nvim) |
+| `Ctrl+Shift+H` | Previous window |
+| `Ctrl+Shift+L` | Next window |
+| `Alt+H` | Previous window (fallback) |
+| `Alt+L` | Next window (fallback) |
+| `Alt+1-9` | Jump to window by number |
+| `Ctrl+,` | Previous session |
+| `Ctrl+.` | Next session |
+| `prefix s` | Fuzzy search sessions (fzf popup) |
+
+## Windows & Panes
+
+| Shortcut | Action |
+|----------|--------|
+| `prefix c` | New window (inherits current path) |
+| `prefix \|` | Split pane horizontally (inherits path) |
+| `prefix -` | Split pane vertically (inherits path) |
+
+## Copy Mode (vi)
+
+| Shortcut | Action |
+|----------|--------|
+| `prefix [` | Enter copy mode |
+| `v` | Begin selection |
+| `y` | Copy selection and exit |
+
+## Shell Aliases
 
 ```bash
-# Attach to last tmux session
-ta
-# Example: ta
-
-# List all tmux sessions
-tl
-# Example: tl
-
-# Kill a tmux session by name
-tk <session-name>
-# Example: tk exchange-flo-app
+ta                # Attach to last tmux session
+tl                # List all tmux sessions
+tk <session>      # Kill a tmux session
+                  # Example: tk ef-infra
 ```
 
 ## Session Manager (`ts`)
@@ -21,54 +46,49 @@ tk <session-name>
 ### Interactive Picker
 
 ```bash
-# Show fzf picker with session scripts and local branches
-ts
-# Example: ts
-#   -> select "session: monitor" to launch monitoring
-#   -> select "branch: jp/traffic-groups" to open worktree session
+ts                # fzf picker showing session scripts + local branches
+                  #   -> select "session: monitor" to launch monitoring
+                  #   -> select "branch: jp/feature" to open worktree session
 ```
 
 ### Named Sessions
 
 ```bash
-# Launch a session script by name
-ts <name>
-# Example: ts monitor        # launches k9s + btop monitoring
-# Example: ts ef-infra       # launches docker + tunnel windows
+ts <name>         # Launch a session script by name
+                  # Example: ts monitor     (k9s + btop monitoring)
+                  # Example: ts ef-infra    (docker + tunnel windows)
 ```
 
 ### Branch / Worktree Sessions (`-b`)
 
 ```bash
-# Open a session for a branch (creates worktree if needed)
-ts -b <branch>
+ts -b <branch>    # Open session for a branch (creates worktree if needed)
 
-# Main branch -- uses repo dir directly, no worktree
-# Example: ts -b main
+                  # Main branch -- uses repo dir directly, no worktree
+                  # Example: ts -b main
 
-# Existing branch -- creates worktree and tmux session
-# Example: ts -b jp/traffic-groups
-#   -> worktree at ~/Development/exchange-flo-app.jp-traffic-groups/
-#   -> tmux session with nvim + claude + terminal
+                  # Existing branch -- creates worktree and tmux session
+                  # Example: ts -b jp/traffic-groups
+                  #   -> worktree at ~/Development/ef.jp-traffic-groups/
+                  #   -> tmux session with nvim + claude + terminal
 
-# Re-attach to existing worktree session
-# Example: ts -b jp/traffic-groups
-#   -> if session already exists, attaches to it
+                  # Re-attach to existing worktree session
+                  # Example: ts -b jp/traffic-groups
+                  #   -> if session already exists, attaches to it
 
-# New branch -- prompts to create if branch doesn't exist
-# Example: ts -b jp/new-feature
-#   -> "Branch 'jp/new-feature' does not exist. Create it? [y/N]"
-#   -> creates branch + worktree + tmux session
+                  # New branch -- prompts to create if it doesn't exist
+                  # Example: ts -b jp/new-feature
+                  #   -> "Branch 'jp/new-feature' does not exist. Create it? [y/N]"
+                  #   -> creates branch + worktree + tmux session
 ```
 
 ### Remove Worktree Session (`-d`)
 
 ```bash
-# Kill tmux session and remove worktree for a branch
-ts -d <branch>
-# Example: ts -d jp/traffic-groups
-#   -> kills tmux session "exchange-flo-app-jp-traffic-groups"
-#   -> removes worktree via worktrunk
+ts -d <branch>    # Kill tmux session and remove worktree
+                  # Example: ts -d jp/traffic-groups
+                  #   -> kills tmux session "ef-jp-traffic-groups"
+                  #   -> removes worktree via worktrunk
 ```
 
 ## Session Layout
