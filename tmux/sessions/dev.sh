@@ -17,10 +17,10 @@ if tmux has-session -t "$SESSION" 2>/dev/null; then
   exit 0
 fi
 
-# Window 1: editor (nvim 75%, claude 25%)
-tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR" -n "editor"
+# Window 1: editor (nvim 80%, claude 20%)
+tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR" -n "editor" -x "$(tput cols)" -y "$(tput lines)"
 tmux send-keys -t "$SESSION:editor" "nvim" Enter
-tmux split-window -t "$SESSION:editor" -h -p 25 -c "$PROJECT_DIR"
+tmux split-window -t "$SESSION:editor" -h -l 20% -c "$PROJECT_DIR"
 tmux send-keys "claude" Enter
 tmux select-pane -t "$SESSION:editor.1"
 

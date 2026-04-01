@@ -38,7 +38,7 @@ Prefix: `Ctrl+Space`
 ta                # Attach to last tmux session
 tl                # List all tmux sessions
 tk <session>      # Kill a tmux session
-                  # Example: tk ef-infra
+                  # Example: tk docker
 ```
 
 ## Session Manager (`ts`)
@@ -56,7 +56,17 @@ ts                # fzf picker showing session scripts + local branches
 ```bash
 ts <name>         # Launch a session script by name
                   # Example: ts monitor     (k9s + btop monitoring)
-                  # Example: ts ef-infra    (docker + tunnel windows)
+                  # Example: ts docker      (docker session)
+```
+
+### Ad-hoc Sessions (`-n`)
+
+```bash
+ts -n <name>      # Create a dev session in the current directory
+                  # Example: cd ~/.config && ts -n config
+                  #   -> tmux session "config" with nvim + claude + terminal
+                  # Example: cd ~/Development/mayolabs && ts -n mayo
+                  #   -> tmux session "mayo" in that directory
 ```
 
 ### Branch / Worktree Sessions (`-b`)
