@@ -129,6 +129,15 @@ ts() {
     return 0
   fi
 
+  # ts -n <name> -- create ad-hoc session in current directory
+  if [ "$1" = "-n" ]; then
+    shift
+    local name="$1"
+    if [ -z "$name" ]; then echo "Usage: ts -n <name>"; return 1; fi
+    bash "$SESSIONS_DIR/dev.sh" "$(pwd)" "$name"
+    return 0
+  fi
+
   # ts <name> -- run a session script if it matches
   if [ -n "$1" ] && [ -f "$SESSIONS_DIR/$1.sh" ]; then
     bash "$SESSIONS_DIR/$1.sh" "${@:2}"
