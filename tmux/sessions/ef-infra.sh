@@ -3,7 +3,7 @@ DETACH=false
 if [ "$1" = "-d" ]; then DETACH=true; shift; fi
 
 SESSION="ef-infra"
-PROJECT_DIR="$HOME/Development/exchange-flo-app"
+PROJECT_DIR="$HOME/Development/ef"
 
 # Attach if session already exists
 if tmux has-session -t "$SESSION" 2>/dev/null; then
