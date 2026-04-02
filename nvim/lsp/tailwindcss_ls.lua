@@ -10,7 +10,6 @@ return {
     'typescript',
     'typescriptreact',
     'elixir',
-    'eelixir',
     'heex',
   },
   -- Tailwind v4: LSP scans for CSS files with @import "tailwindcss"
