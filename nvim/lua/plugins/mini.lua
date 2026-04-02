@@ -80,30 +80,7 @@ return {
       },
     })
 
-    -----------------------------------------------------------
-    -- Starter
-    -----------------------------------------------------------
-    local starter = require("mini.starter")
-    starter.setup({
-      header = [[
- .-._           ,----.     _,.---._           ,-.-. .=-.-.       ___
-/==/ \  .-._ ,-.--` , \  ,-.' , -  `.  ,--.-./=/ ,//==/_ /.-._ .'=.'\
-|==|, \/ /, /==|-  _.-` /==/_,  ,  - \/==/, ||=| -|==|, |/==/ \|==|  |
-|==|-  \|  ||==|   `.-.|==|   .=.     \==\,  \ / ,|==|  ||==|,|  / - |
-|==| ,  | -/==/_ ,    /|==|_ : ;=:  - |\==\ - ' - /==|- ||==|  \/  , |
-|==| -   _ |==|    .-' |==| , '='     | \==\ ,   ||==| ,||==|- ,   _ |
-|==|  /\ , |==|_  ,`-._ \==\ -    ,_ /  |==| -  ,/|==|- ||==| _ /\   |
-/==/, | |- /==/ ,     /  '.='. -   .'   \==\  _ / /==/. //==/  / / , /
-`--`./  `--`--`-----``     `--`--''      `--`--'  `--`-` `--`./  `--`
-]],
-
-      items = {
-        starter.sections.builtin_actions(),
-        starter.sections.recent_files(5, false),
-        starter.sections.recent_files(5, true),
-      },
-      footer = "",
-    })
+    -- NOTE: mini.starter disabled in favor of Neovim 0.12 built-in landing page
 
     -----------------------------------------------------------
     -- Comment
@@ -135,7 +112,7 @@ return {
       },
     })
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "help", "lazy", "mason", "notify", "minifiles", "starter" },
+      pattern = { "help", "lazy", "mason", "notify", "minifiles", "intro" },
       callback = function()
         vim.b.miniindentscope_disable = true
       end,
