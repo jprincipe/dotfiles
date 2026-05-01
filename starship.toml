@@ -2,7 +2,7 @@
 
 add_newline = true
 command_timeout = 200
-format = "$directory$git_branch$kubernetes$time$character"
+format = "$directory$git_branch$time$character"
 # right_format = "$time"
 
 [time]
