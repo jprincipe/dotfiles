@@ -112,7 +112,7 @@ return {
       },
     })
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "help", "lazy", "mason", "notify", "minifiles", "intro" },
+      pattern = { "help", "lazy", "mason", "notify", "oil", "intro" },
       callback = function()
         vim.b.miniindentscope_disable = true
       end,
@@ -210,31 +210,6 @@ return {
     require("mini.diff").setup()
 
     -----------------------------------------------------------
-    -- Files (File explorer)
-    -----------------------------------------------------------
-    require("mini.files").setup({
-      mappings = {
-        close       = "q",
-        go_in       = "l",
-        go_in_plus  = "<CR>",
-        go_out      = "h",
-        go_out_plus = "-",
-        reset       = "<BS>",
-        reveal_cwd  = "@",
-        show_help   = "g?",
-        synchronize = "=",
-        trim_left   = "<",
-        trim_right  = ">",
-      },
-      windows = {
-        preview = true,
-        width_focus = 30,
-        width_nofocus = 15,
-        width_preview = 80,
-      },
-    })
-
-    -----------------------------------------------------------
     -- Sessions (Session management)
     -----------------------------------------------------------
     require("mini.sessions").setup({
@@ -245,7 +220,7 @@ return {
     vim.api.nvim_create_autocmd("VimLeavePre", {
       callback = function()
         -- Only save if we have real buffers open (not just starter/empty)
-        local dominated_ft = { "starter", "lazy", "mason", "minifiles", "" }
+        local dominated_ft = { "starter", "lazy", "mason", "oil", "" }
         local dominated_bt = { "nofile", "help", "terminal" }
         for _, buf in ipairs(vim.api.nvim_list_bufs()) do
           if vim.api.nvim_buf_is_loaded(buf) then
@@ -270,7 +245,7 @@ return {
     })
     -- Disable animations for certain filetypes
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "minifiles", "starter", "lazy", "mason" },
+      pattern = { "oil", "starter", "lazy", "mason" },
       callback = function()
         vim.b.minianimate_disable = true
       end,
@@ -344,20 +319,6 @@ return {
     { "<leader>gl", "<cmd>Git log --oneline<cr>",               desc = "Git log" },
     { "<leader>gL", "<cmd>Git log --oneline --follow -- %<cr>", desc = "Git log (current file)" },
     { "<leader>gb", "<cmd>Git blame -- %<cr>",                  desc = "Git blame" },
-    -- Files
-    {
-      "<leader>e",
-      function()
-        local path = vim.api.nvim_buf_get_name(0)
-        if path == "" or not vim.uv.fs_stat(path) then
-          path = vim.fn.getcwd()
-        end
-        MiniFiles.open(path, false)
-      end,
-      desc = "Explorer (current file)"
-    },
-    { "-",         "<leader>e",                                           remap = true,           desc = "Open parent directory" },
-    { "<leader>E", function() MiniFiles.open(vim.fn.getcwd(), false) end, desc = "Explorer (cwd)" },
     -- Sessions
     {
       "<leader>ss",
