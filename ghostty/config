@@ -9,17 +9,26 @@ background-opacity = 0.95
 background-blur-radius = 10
 alpha-blending = linear-corrected
 
-macos-icon = official
+# macos-icon = official
+macos-icon = custom
+macos-custom-icon = ~/.config/ghostty/icons/nord.icns
 
 # font settings
 # font-family = "MonoLisa Nerd Font"
 # font-family = "Iosevka NF"
-font-family = "MonaspaceRadonNF"
-font-size = 14
+# font-family = "MonaspaceRadonNF"
+font-family = "Maple Mono NF"
+font-family-italic = "Maple Mono NF"
+font-family-bold-italic = "Maple Mono NF"
+font-size = 12
 font-thicken = true
+# Maple Mono features
 font-feature = calt
+font-feature = cv01
 font-feature = ss01
-font-feature = ss03
+font-feature = ss02
+font-feature = ss08
+font-feature = zero
 
 # clipboard settings
 copy-on-select = clipboard
@@ -37,7 +46,7 @@ window-save-state = always
 window-colorspace = "display-p3"
 window-inherit-font-size = false
 window-padding-x = 10
-window-title-font-family = "MonaspaceRadonNF"
+window-title-font-family = "Maple Mono NF"
 mouse-hide-while-typing = true
 
 # quick terminal
