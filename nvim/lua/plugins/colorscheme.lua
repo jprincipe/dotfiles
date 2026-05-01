@@ -38,7 +38,7 @@ return
     require("nightfox").setup({
       options = {
         transparent = true,  -- Enable transparent background
-        dim_inactive = true, -- Non-focused panes set to alternative background
+        dim_inactive = false, -- Rely on WinSeparator color instead
         styles = {
           comments = "italic",
           conditionals = "NONE",
@@ -60,6 +60,22 @@ return
       },
     })
     vim.cmd.colorscheme("nordfox")
+    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#3B4252" })
+    vim.api.nvim_set_hl(0, "ActiveWinSeparator", { fg = "#81A1C1" })
+
+    local aug = vim.api.nvim_create_augroup("WinSeparatorToggle", { clear = true })
+    vim.api.nvim_create_autocmd({ "WinEnter", "BufWinEnter" }, {
+      group = aug,
+      callback = function()
+        vim.wo.winhighlight = "WinSeparator:ActiveWinSeparator"
+      end,
+    })
+    vim.api.nvim_create_autocmd("WinLeave", {
+      group = aug,
+      callback = function()
+        vim.wo.winhighlight = ""
+      end,
+    })
   end,
 }
 -- everforest
