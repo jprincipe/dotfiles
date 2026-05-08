@@ -35,8 +35,8 @@ map("n", "<leader>w_", "<C-w>_", { desc = "Max height" })
 
 -- Window navigation handled by smart-splits.nvim (tmux-aware)
 
--- Exit terminal mode with double Escape
-map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+-- Exit terminal mode (matches tmux C-y → copy-mode)
+map("t", "<C-y>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 map("n", "<leader>wr", function()
   vim.notify("Resize mode: h/j/k/l to resize, Esc to exit", vim.log.levels.INFO)
