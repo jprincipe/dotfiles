@@ -10,10 +10,19 @@ SESSION="${2:-$(basename "$PROJECT_DIR")}"
 SESSION="${SESSION//./-}"
 SESSION="${SESSION//:/-}"
 
-# Attach if session already exists
-if tmux has-session -t "$SESSION" 2>/dev/null; then
+# Use switch-client when inside tmux, attach-session otherwise
+attach_or_switch() {
+  if [ -n "$TMUX" ]; then
+    tmux switch-client -t "=$SESSION"
+  else
+    tmux attach-session -t "=$SESSION"
+  fi
+}
+
+# Attach if session already exists (exact match via =)
+if tmux has-session -t "=$SESSION" 2>/dev/null; then
   [ "$DETACH" = true ] && exit 0
-  tmux attach-session -t "$SESSION"
+  attach_or_switch
   exit 0
 fi
 
@@ -24,9 +33,10 @@ tmux split-window -t "$SESSION:editor" -h -l 20% -c "$PROJECT_DIR"
 tmux send-keys "claude" Enter
 tmux select-pane -t "$SESSION:editor.1"
 
-# Window 2: terminal
+# Window 2: terminal (with pane border labels)
 tmux new-window -t "$SESSION" -n "terminal" -c "$PROJECT_DIR"
+tmux set-option -w -t "$SESSION:terminal" pane-border-status top
 
 # Focus on editor
 tmux select-window -t "$SESSION:editor"
-[ "$DETACH" = true ] || tmux attach-session -t "$SESSION"
+[ "$DETACH" = true ] || attach_or_switch

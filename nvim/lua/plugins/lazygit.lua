@@ -11,8 +11,4 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  keys = {
-    { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-    { "<leader>gf", "<cmd>LazyGitFilterCurrentFile<cr>", desc = "LazyGit file history" },
-  },
 }

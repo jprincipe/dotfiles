@@ -1,3 +1,10 @@
+-- Filetypes
+vim.filetype.add({
+  extension = {
+    livemd = "markdown",
+  },
+})
+
 -- Options
 local opt = vim.opt
 
@@ -54,11 +61,12 @@ opt.updatetime = 250
 opt.timeoutlen = 300
 opt.mouse = "a"
 opt.showmode = false
+opt.laststatus = 3
 opt.breakindent = true
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 opt.inccommand = "split"
-opt.fillchars = { eob = " " }
+opt.fillchars = { eob = " ", horiz = "═", horizup = "╩", horizdown = "╦", vert = "║", vertleft = "╣", vertright = "╠", verthoriz = "╬" }
 
 -- Folding (native treesitter)
 opt.foldmethod = "expr"

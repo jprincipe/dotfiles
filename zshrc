@@ -28,6 +28,7 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ######################################
 export LANG=en_US.UTF-8
 export EDITOR='nvim'
+export K9S_CONFIG_DIR="$HOME/.config/k9s"
 
 ######################################
 # aliases
@@ -54,17 +55,6 @@ ts() {
     local repo_dir
     repo_dir="$(git rev-parse --show-toplevel 2>/dev/null)"
     if [ -z "$repo_dir" ]; then echo "Not in a git repo."; return 1; fi
-
-    # Follow to the main worktree if inside a linked worktree
-    local main_wt
-    main_wt="$(git -C "$repo_dir" worktree list --porcelain | head -1 | sed 's/^worktree //')"
-    repo_dir="$main_wt"
-
-    # main/master: use repo dir directly, no worktree
-    if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
-      bash "$SESSIONS_DIR/dev.sh" "$repo_dir"
-      return 0
-    fi
 
     # Check if branch exists locally
     if git -C "$repo_dir" show-ref --verify --quiet "refs/heads/$branch"; then
@@ -205,11 +195,14 @@ eval "$(direnv hook zsh)"
 # Update PATH to include homebrew
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
-
-. "$HOME/.local/bin/env"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/jprincipe/.docker/completions $fpath)
 # End of Docker CLI completions
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+export PATH="$HOME/.local/bin:$PATH"
+
+# Claude Code session archive browser
+[ -f "$HOME/.config/zsh/claude-archive.zsh" ] && source "$HOME/.config/zsh/claude-archive.zsh"
