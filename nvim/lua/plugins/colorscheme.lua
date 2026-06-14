@@ -37,7 +37,7 @@ return
   config = function()
     require("nightfox").setup({
       options = {
-        transparent = true,  -- Enable transparent background
+        transparent = false,
         dim_inactive = false, -- Rely on WinSeparator color instead
         styles = {
           comments = "italic",

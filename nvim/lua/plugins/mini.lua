@@ -274,6 +274,20 @@ return {
       options = {
         use_cache = true,
       },
+      window = {
+        config = function()
+          local h = math.floor(0.618 * vim.o.lines)
+          local w = math.floor(0.618 * vim.o.columns)
+          return {
+            anchor = "NW",
+            height = h,
+            width = w,
+            row = math.floor(0.5 * (vim.o.lines - h)),
+            col = math.floor(0.5 * (vim.o.columns - w)),
+            border = "double",
+          }
+        end,
+      },
     })
 
     -----------------------------------------------------------
