@@ -5,9 +5,9 @@ theme = "nordic"
 # theme = everforest-dark
 selection-background = #88c0d0
 selection-foreground = #2e3440
-background-opacity = 0.95
-background-blur-radius = 10
-alpha-blending = linear-corrected
+# background-opacity = 0.95
+# background-blur-radius = 10
+# alpha-blending = linear-corrected
 
 # macos-icon = official
 macos-icon = custom
