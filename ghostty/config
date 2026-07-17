@@ -14,21 +14,28 @@ macos-icon = custom
 macos-custom-icon = ~/.config/ghostty/icons/nord.icns
 
 # font settings
-# font-family = "MonoLisa Nerd Font"
 # font-family = "Iosevka NF"
 # font-family = "MonaspaceRadonNF"
-font-family = "Maple Mono NF"
-font-family-italic = "Maple Mono NF"
-font-family-bold-italic = "Maple Mono NF"
+font-family = "MonoLisaCode"
+font-family-italic = "MonoLisaCode"
+font-family-bold-italic = "MonoLisaCode"
+# font-family = "Maple Mono NF"
+# font-family-italic = "Maple Mono NF"
+# font-family-bold-italic = "Maple Mono NF"
 font-size = 12
 font-thicken = true
-# Maple Mono features
-font-feature = calt
-font-feature = cv01
+# MonoLisa v3 features: ss01 script italics, ss08 alt $, ss11 alt {}
+# (coding ligatures stay off — add dlig to enable them all)
 font-feature = ss01
-font-feature = ss02
 font-feature = ss08
-font-feature = zero
+font-feature = ss11
+# Maple Mono features
+# font-feature = calt
+# font-feature = cv01
+# font-feature = ss01
+# font-feature = ss02
+# font-feature = ss08
+# font-feature = zero
 
 # clipboard settings
 copy-on-select = clipboard

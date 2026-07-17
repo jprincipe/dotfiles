@@ -7,7 +7,7 @@ k9s:
       - default
       - buildkit
   view:
-    active: apps/v1/deployments default
+    active: v1/pods default
   featureGates:
     nodeShell: false
   proxy: null
