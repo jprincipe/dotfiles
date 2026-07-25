@@ -38,7 +38,9 @@ return
     require("nightfox").setup({
       options = {
         transparent = false,
-        dim_inactive = false, -- Rely on WinSeparator color instead
+        dim_inactive = false, -- nvim dimming is handled by the vimade plugin instead
+                              -- (it also fades the whole editor on tmux focus loss,
+                              -- which dim_inactive can't — it never dims the current win)
         styles = {
           comments = "italic",
           conditionals = "NONE",
@@ -60,22 +62,13 @@ return
       },
     })
     vim.cmd.colorscheme("nordfox")
+    -- Quiet, single-color separator matching the tmux inactive-pane border grey
+    -- (#3B4252) — just a delineator. Which split is ACTIVE is shown by vimade's
+    -- fading, not the border: nvim draws a window's separators on its right/bottom
+    -- edges so a shared divider is owned by the top/left window, making per-window
+    -- "active border" coloring impossible without the border vanishing when the
+    -- bottom/right split is focused.
     vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#3B4252" })
-    vim.api.nvim_set_hl(0, "ActiveWinSeparator", { fg = "#81A1C1" })
-
-    local aug = vim.api.nvim_create_augroup("WinSeparatorToggle", { clear = true })
-    vim.api.nvim_create_autocmd({ "WinEnter", "BufWinEnter" }, {
-      group = aug,
-      callback = function()
-        vim.wo.winhighlight = "WinSeparator:ActiveWinSeparator"
-      end,
-    })
-    vim.api.nvim_create_autocmd("WinLeave", {
-      group = aug,
-      callback = function()
-        vim.wo.winhighlight = ""
-      end,
-    })
   end,
 }
 -- everforest

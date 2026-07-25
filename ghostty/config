@@ -3,7 +3,7 @@ theme = "nordic"
 # theme = "kanagawa"
 # background = "#2A2A37"
 # theme = everforest-dark
-selection-background = #88c0d0
+selection-background = #81A1C1
 selection-foreground = #2e3440
 # background-opacity = 0.95
 # background-blur-radius = 10
@@ -16,26 +16,26 @@ macos-custom-icon = ~/.config/ghostty/icons/nord.icns
 # font settings
 # font-family = "Iosevka NF"
 # font-family = "MonaspaceRadonNF"
-font-family = "MonoLisaCode"
-font-family-italic = "MonoLisaCode"
-font-family-bold-italic = "MonoLisaCode"
-# font-family = "Maple Mono NF"
-# font-family-italic = "Maple Mono NF"
-# font-family-bold-italic = "Maple Mono NF"
+# font-family = "MonoLisaCode"
+# font-family-italic = "MonoLisaCode"
+# font-family-bold-italic = "MonoLisaCode"
+font-family = "Maple Mono NF"
+font-family-italic = "Maple Mono NF"
+font-family-bold-italic = "Maple Mono NF"
 font-size = 12
 font-thicken = true
 # MonoLisa v3 features: ss01 script italics, ss08 alt $, ss11 alt {}
 # (coding ligatures stay off — add dlig to enable them all)
-font-feature = ss01
-font-feature = ss08
-font-feature = ss11
-# Maple Mono features
-# font-feature = calt
-# font-feature = cv01
 # font-feature = ss01
-# font-feature = ss02
 # font-feature = ss08
-# font-feature = zero
+# font-feature = ss11
+# Maple Mono features
+font-feature = calt
+font-feature = cv01
+font-feature = ss01
+font-feature = ss02
+font-feature = ss08
+font-feature = zero
 
 # clipboard settings
 copy-on-select = clipboard
@@ -72,14 +72,16 @@ keybind = shift+enter=text:\n
 
 # cursor settings
 cursor-style = block
-cursor-color = #ffff00
+cursor-color = #EBCB8B
 cursor-opacity = 1.0
 cursor-invert-fg-bg = false
 
 # shaders
 custom-shader-animation = always
-custom-shader=./shaders/ripple_cursor.glsl
-custom-shader=./shaders/cursor_warp.glsl
+# custom-shader=./shaders/cursor_sweep.glsl
+# warp runs first (draws the tail); ripple runs last so it isn't masked by it
+custom-shader = shaders/cursor_warp.glsl
+custom-shader = shaders/ripple_cursor.glsl
 # custom-shader=./shaders/cursor_smear_fade.glsl
 # custom-shader=./shaders/cursor_blaze.glsl
 # custom-shader=./shaders/cursor_blaze_tapered.glsl

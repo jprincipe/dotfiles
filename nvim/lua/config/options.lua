@@ -66,7 +66,8 @@ opt.breakindent = true
 opt.list = true
 opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 opt.inccommand = "split"
-opt.fillchars = { eob = " ", horiz = "═", horizup = "╩", horizdown = "╦", vert = "║", vertleft = "╣", vertright = "╠", verthoriz = "╬" }
+-- Single-line window separators (clean/thin), matching tmux's default pane borders
+opt.fillchars = { eob = " ", horiz = "─", horizup = "┴", horizdown = "┬", vert = "│", vertleft = "┤", vertright = "├", verthoriz = "┼" }
 
 -- Folding (native treesitter)
 opt.foldmethod = "expr"
