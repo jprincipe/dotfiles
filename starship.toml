@@ -2,8 +2,14 @@
 
 add_newline = true
 command_timeout = 200
-format = "$directory$git_branch$time$character"
+format = "$hostname$directory$git_branch$time$character"
 # right_format = "$time"
+
+[hostname]
+ssh_only = false            # always show, not just over SSH
+format = "[󰒋 $hostname]($style) "
+style = "bold #8fbcbb"      # Nord teal, matches the tmux hostname pill
+trim_at = "."               # drop any domain suffix (short name only)
 
 [time]
 disabled = false
