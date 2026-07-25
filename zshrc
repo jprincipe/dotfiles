@@ -20,8 +20,14 @@ bindkey "^[[1;9C" end-of-line       # cmd+→
 # Enable completion system
 autoload -Uz compinit
 compinit
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 ######################################
 # Default shell values
@@ -62,9 +68,11 @@ eval "$(direnv hook zsh)"
 ######################################
 
 # Update PATH to include homebrew
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+  export PATH="/opt/homebrew/sbin:$PATH"
+  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+fi
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/jprincipe/.docker/completions $fpath)

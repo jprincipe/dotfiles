@@ -7,7 +7,7 @@
   "grug-far.nvim": { "branch": "main", "commit": "0f6a5d0d7a70659b11bbcd6b3673ee0fe61b6024" },
   "hererocks": { "branch": "master", "commit": "3db37265c3839cbd4d27fc73f92fa7b58bc3a76f" },
   "kulala.nvim": { "branch": "main", "commit": "5c2234e1a0ae8a95911231682c52be2a13fcc117" },
-  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
+  "lazy.nvim": { "branch": "main", "commit": "85c7ff3711b730b4030d03144f6db6375044ae82" },
   "markdown-preview.nvim": { "branch": "master", "commit": "a923f5fc5ba36a3b17e289dc35dc17f66d0548ee" },
   "marks.nvim": { "branch": "master", "commit": "f353e8c08c50f39e99a9ed474172df7eddd89b72" },
   "mini.nvim": { "branch": "main", "commit": "946ae64e0ee807ae3c41f382f0114b4ed4915b2c" },
@@ -23,6 +23,5 @@
   "screenkey.nvim": { "branch": "main", "commit": "16390931d847b1d5d77098daccac4e55654ac9e2" },
   "smart-splits.nvim": { "branch": "master", "commit": "68861c68f1cf34dab4cdb22f094d4531cd26560a" },
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
-  "uuid-nvim": { "branch": "master", "commit": "0501b83be8ac6ae7697632b9476ceaea8e776bb0" },
-  "vimade": { "branch": "master", "commit": "3d3d2db7ecd43c0181b20fede11d26f090dbc0d9" }
+  "uuid-nvim": { "branch": "master", "commit": "0501b83be8ac6ae7697632b9476ceaea8e776bb0" }
 }
