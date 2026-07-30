@@ -79,9 +79,11 @@ cursor-invert-fg-bg = false
 # shaders
 custom-shader-animation = always
 # custom-shader=./shaders/cursor_sweep.glsl
-# warp runs first (draws the tail); ripple runs last so it isn't masked by it
+# NOTE: `custom-shader` is a repeatable key -- every uncommented line stacks, so
+# leaving two enabled runs both effects at once.
+# Tail only: cursor_warp draws the trail. ripple_cursor stays off.
 custom-shader = shaders/cursor_warp.glsl
-custom-shader = shaders/ripple_cursor.glsl
+# custom-shader = shaders/ripple_cursor.glsl
 # custom-shader=./shaders/cursor_smear_fade.glsl
 # custom-shader=./shaders/cursor_blaze.glsl
 # custom-shader=./shaders/cursor_blaze_tapered.glsl

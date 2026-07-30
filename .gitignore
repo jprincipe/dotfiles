@@ -1,0 +1,2 @@
+# TPM manages this directory itself; plugins are cloned, not vendored.
+tmux/plugins/

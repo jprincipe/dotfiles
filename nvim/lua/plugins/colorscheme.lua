@@ -63,11 +63,10 @@ return
     })
     vim.cmd.colorscheme("nordfox")
     -- Quiet, single-color separator matching the tmux inactive-pane border grey
-    -- (#3B4252) — just a delineator. Which split is ACTIVE is shown by vimade's
-    -- fading, not the border: nvim draws a window's separators on its right/bottom
-    -- edges so a shared divider is owned by the top/left window, making per-window
-    -- "active border" coloring impossible without the border vanishing when the
-    -- bottom/right split is focused.
+    -- (#3B4252) — just a delineator, the same for every split. Coloring only the
+    -- ACTIVE split's border needs neighbour bookkeeping: nvim draws a window's
+    -- separators on its right/bottom edges, so the dividers left of and above a
+    -- window are owned by its neighbours, not by it. Tried and removed.
     vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#3B4252" })
   end,
 }

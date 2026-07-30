@@ -252,52 +252,10 @@ return {
     })
 
     -----------------------------------------------------------
-    -- Pick (Fuzzy finder)
-    -----------------------------------------------------------
-    require("mini.pick").setup({
-      mappings = {
-        move_down = "<C-j>",
-        move_up = "<C-k>",
-        mark = "<C-x>",
-        mark_all = "<C-a>",
-        choose_marked = "<C-q>",
-        refine = "<C-Space>",
-        refine_marked = "<M-Space>",
-        paste_clipboard = {
-          char = "<C-v>",
-          func = function()
-            local clipboard = vim.fn.getreg("+")
-            MiniPick.set_picker_query(vim.split(clipboard, "\n"))
-          end,
-        },
-      },
-      options = {
-        use_cache = true,
-      },
-      window = {
-        config = function()
-          local h = math.floor(0.618 * vim.o.lines)
-          local w = math.floor(0.618 * vim.o.columns)
-          return {
-            anchor = "NW",
-            height = h,
-            width = w,
-            row = math.floor(0.5 * (vim.o.lines - h)),
-            col = math.floor(0.5 * (vim.o.columns - w)),
-            border = "double",
-          }
-        end,
-      },
-    })
-
-    -----------------------------------------------------------
-    -- Extra (Additional pickers and utilities)
-    -----------------------------------------------------------
-    require("mini.extra").setup()
-
-    -----------------------------------------------------------
     -- Visits (Track file visits for frecency sorting)
     -----------------------------------------------------------
+    -- Kept after moving pickers to fzf-lua: this only *tracks* visits. It backs
+    -- the frecency list behind <leader>fv in plugins/fzf-lua.lua.
     require("mini.visits").setup()
   end,
   keys = {
@@ -357,68 +315,6 @@ return {
       end,
       desc = "Restore session (cwd)"
     },
-    -- Pick
-    {
-      "<leader>ff",
-      function()
-        local in_git = vim.fn.finddir(".git", ".;") ~= ""
-        MiniPick.builtin.files({ tool = in_git and "git" or "rg" })
-      end,
-      desc = "Find files"
-    },
-    { "<leader>fg", function() MiniPick.builtin.grep_live() end, desc = "Live grep" },
-    {
-      "<leader>fG",
-      function()
-        local glob = vim.fn.input("Glob: ", "**/*.")
-        if glob ~= "" then
-          MiniPick.builtin.grep_live({ globs = { glob } })
-        end
-      end,
-      desc = "Live grep (filtered)"
-    },
-    {
-      "<leader>fb",
-      function()
-        MiniPick.builtin.buffers({ include_current = true }, {
-          mappings = {
-            wipeout = {
-              char = "<C-d>",
-              func = function()
-                local items = MiniPick.get_picker_matches() or {}
-                local current = items.current
-                if current then
-                  local buf = current.bufnr or current
-                  MiniBufremove.wipeout(buf)
-                  local new_items = {}
-                  for _, item in ipairs(items.all or {}) do
-                    local b = item.bufnr or item
-                    if b ~= buf then table.insert(new_items, item) end
-                  end
-                  MiniPick.set_picker_items(new_items)
-                end
-              end,
-            },
-          },
-        })
-      end,
-      desc = "Buffers"
-    },
-    { "<leader>fh",  function() MiniPick.builtin.help() end,                                       desc = "Help tags" },
-    { "<leader>fr",  function() MiniPick.builtin.resume() end,                                     desc = "Resume picker" },
-    { "<leader>fo",  function() MiniExtra.pickers.oldfiles() end,                                  desc = "Recent files" },
-    { "<leader>fv",  function() MiniExtra.pickers.visit_paths() end,                               desc = "Visited files (frecency)" },
-    { "<leader>fc",  function() MiniPick.builtin.grep({ pattern = vim.fn.expand("<cword>") }) end, desc = "Find word under cursor" },
-    { "<leader>fd",  function() MiniExtra.pickers.diagnostic() end,                                desc = "Diagnostics" },
-    { "<leader>fs",  function() MiniExtra.pickers.lsp({ scope = "document_symbol" }) end,          desc = "Document symbols" },
-    { "<leader>fk",  function() MiniExtra.pickers.keymaps() end,                                   desc = "Keymaps" },
-    { "<leader>f:",  function() MiniExtra.pickers.commands() end,                                  desc = "Commands" },
-    { "<leader>f/",  function() MiniExtra.pickers.buf_lines() end,                                 desc = "Buffer lines" },
-    { "<leader>fm",  function() MiniExtra.pickers.marks() end,                                     desc = "Marks" },
-    { "<leader>f\"", function() MiniExtra.pickers.registers() end,                                 desc = "Registers" },
-    -- Git pickers
-    { "<leader>gB",  function() MiniExtra.pickers.git_branches() end,                              desc = "Git branches" },
-    { "<leader>gC",  function() MiniExtra.pickers.git_commits() end,                               desc = "Git commits" },
-    { "<leader>gH",  function() MiniExtra.pickers.git_hunks() end,                                 desc = "Git hunks" },
+    -- NOTE: pickers (<leader>f*, <leader>gB/gC/gH) live in plugins/fzf-lua.lua.
   },
 }

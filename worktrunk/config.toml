@@ -271,7 +271,8 @@
 # in the background and would race.
 post-switch = "direnv allow {{ worktree_path }} 2>/dev/null || true"
 
-# Worktree path: use `-` instead of the default `.` so tmux can use the dir
-# basename as a session name verbatim (tmux reserves `.` for target specs and
-# would munge it to `_`).
-worktree-path = "{{ repo_path }}/../{{ repo }}-{{ branch | sanitize }}"
+# Worktree path: branch name only, as a sibling of the repo. Drops both the
+# `{{ repo }}` prefix and the default `.` separator — the latter matters
+# because tmux reserves `.` in target specifiers and would munge it to `_`,
+# so the directory basename is usable as a session name verbatim.
+worktree-path = "{{ repo_path }}/../{{ branch | sanitize }}"

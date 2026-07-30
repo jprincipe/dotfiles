@@ -1,4 +1,5 @@
 [projects."github.com/ExchangeFlo/exchange-flo-app"]
 approved-commands = [
     "bash dev/setup-worktree.sh",
+    "wt step copy-ignored",
 ]

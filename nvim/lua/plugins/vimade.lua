@@ -1,7 +1,6 @@
--- Fade inactive nvim splits AND the whole editor when its tmux pane loses focus.
--- Configured to match the tmux inactive-pane dim: darken the background to #262B34
--- and leave the text/syntax colors unchanged (rather than fading the content), so
--- an inactive nvim window and an inactive tmux pane look identical.
+-- Fade the whole editor when its tmux pane loses focus. Inactive *splits* are
+-- deliberately NOT dimmed during normal editing — that dim was removed to match
+-- tmux, which now marks the active pane with a border color + title instead.
 -- Requires tmux `focus-events on` (already set) for FocusLost/FocusGained.
 return {
   "TaDaa/vimade",
@@ -9,9 +8,11 @@ return {
   opts = {
     -- Fade the whole editor when it loses focus (its tmux pane goes inactive).
     enablefocusfading = true,
-    -- Fade ALL inactive windows, not just those showing a different buffer (default
-    -- 'buffers' skips same-buffer splits, so they wouldn't dim).
-    ncmode = "windows",
+    -- 'focus' = only fade inactive windows while the :VimadeFocus command is
+    -- toggled on, so ordinary splits stay undimmed. ('windows' faded every
+    -- inactive split, 'buffers' — the default — every split with another buffer.)
+    -- enablefocusfading is a separate option, so the whole-editor fade survives.
+    ncmode = "focus",
     -- 1.0 = no foreground fade; the dim comes entirely from the bg tint below.
     fadelevel = 1.0,
     tint = {
