@@ -130,22 +130,22 @@ toggle_sidebar = "prefix+b"
 [[keys.command]]
 key = "ctrl+h"
 type = "shell"
-command = "~/.local/bin/herdr-nav left"
+command = "~/.config/herdr/bin/herdr-nav left"
 
 [[keys.command]]
 key = "ctrl+j"
 type = "shell"
-command = "~/.local/bin/herdr-nav down"
+command = "~/.config/herdr/bin/herdr-nav down"
 
 [[keys.command]]
 key = "ctrl+k"
 type = "shell"
-command = "~/.local/bin/herdr-nav up"
+command = "~/.config/herdr/bin/herdr-nav up"
 
 [[keys.command]]
 key = "ctrl+l"
 type = "shell"
-command = "~/.local/bin/herdr-nav right"
+command = "~/.config/herdr/bin/herdr-nav right"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.

@@ -1,0 +1,30 @@
+#!/bin/sh
+# herdr keybindings are unconditional, so this stands in for tmux's `if-shell "$is_vim"`:
+# when the focused pane is running (n)vim, hand the keystroke to it and let
+# smart-splits.nvim decide whether to move a window or cross into a herdr pane.
+set -eu
+
+PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH
+
+case "${1:-}" in
+  left) key="ctrl+h" ;;
+  down) key="ctrl+j" ;;
+  up) key="ctrl+k" ;;
+  right) key="ctrl+l" ;;
+  *)
+    echo "usage: herdr-nav <left|down|up|right>" >&2
+    exit 2
+    ;;
+esac
+direction="$1"
+
+focused=$(herdr pane list 2>/dev/null | jq -r 'first(.result.panes[] | select(.focused) | .pane_id) // empty') || exit 0
+[ -n "$focused" ] || exit 0
+
+if herdr pane process-info --pane "$focused" 2>/dev/null |
+  jq -e 'any(.result.process_info.foreground_processes[]?.name; test("^n?vim$"))' >/dev/null 2>&1; then
+  exec herdr pane send-keys "$focused" "$key"
+fi
+
+exec herdr pane focus --direction "$direction" --pane "$focused"
