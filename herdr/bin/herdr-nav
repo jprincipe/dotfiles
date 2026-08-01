@@ -7,6 +7,10 @@ set -eu
 PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 export PATH
 
+PROBE="$HOME/.herdr-nav-probe.log"
+probe() { printf '%s %s %s\n' "$(date +%FT%T)" "$(hostname)" "$*" >>"$PROBE" 2>/dev/null || true; }
+probe "fired dir=${1:-none}"
+
 case "${1:-}" in
   left) key="ctrl+h" ;;
   down) key="ctrl+j" ;;
