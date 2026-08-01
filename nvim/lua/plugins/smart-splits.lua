@@ -3,6 +3,7 @@ return {
   lazy = false,
   opts = {
     at_edge = "stop",
+    multiplexer_integration = "herdr",
   },
   keys = {
     { "<C-h>", function() require("smart-splits").move_cursor_left() end, mode = { "n", "t" }, desc = "Move to left pane" },

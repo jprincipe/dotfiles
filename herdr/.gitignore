@@ -1,0 +1,8 @@
+*.log
+*.sock
+session.json
+.plugins.lock
+config.toml.bak-*
+
+# herdr clones plugins here; plugins.json is the tracked manifest.
+plugins/
