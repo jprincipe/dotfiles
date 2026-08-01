@@ -72,7 +72,7 @@ prefix = "ctrl+space"
 goto = "ctrl+b"
 # new_workspace = "prefix+shift+n"
 # new_worktree = "prefix+shift+g"
-# open_worktree = ""    # optional, unset by default
+open_worktree = "prefix+shift+o"
 # remove_worktree = ""  # optional, unset by default; opens confirmation
 # rename_workspace = "prefix+shift+w"
 # close_workspace = "prefix+shift+d"
@@ -84,8 +84,8 @@ goto = "ctrl+b"
 # remote_image_paste = "ctrl+v" # only active in herdr --remote; empty disables raw-key image paste
 # new_tab = "prefix+c"
 # rename_tab = "prefix+shift+t"
-# previous_tab = "prefix+p"
-# next_tab = "prefix+n"
+previous_tab = "ctrl+shift+h"
+next_tab = "ctrl+shift+l"
 # switch_tab = "prefix+1..9"
 # switch_workspace = ""   # optional indexed binding, e.g. "prefix+shift+1..9"
 # close_tab = "prefix+shift+x"
@@ -154,8 +154,8 @@ command = "~/.config/herdr/bin/herdr-nav right"
 # workspaces = "" # e.g. "ctrl+shift" makes ctrl+shift+1..9 switch workspaces directly
 # agents = ""     # e.g. "alt" makes alt+1..9 focus agent rows directly
 
-# [worktrees]
-# directory = "~/.herdr/worktrees"
+[worktrees]
+directory = "~/dev"
 
 [ui]
 # Sidebar width (auto-scaled based on workspace names, this sets the default)

@@ -83,3 +83,36 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Claude Code session archive browser
 [ -f "$HOME/.config/zsh/claude-archive.zsh" ] && source "$HOME/.config/zsh/claude-archive.zsh"
+
+######################################
+# herdr pane names
+######################################
+if [[ -n $HERDR_PANE_ID ]] && command -v herdr >/dev/null 2>&1; then
+  autoload -Uz add-zsh-hook
+
+  _herdr_pane_set() {
+    [[ $_HERDR_PANE_NAME == "$1" ]] && return
+    _HERDR_PANE_NAME=$1
+    herdr pane rename "$HERDR_PANE_ID" "$1" >/dev/null 2>&1
+  }
+
+  # herdr detects these itself; a manual label would shadow its own
+  _herdr_pane_clear() {
+    [[ -z $_HERDR_PANE_NAME ]] && return
+    _HERDR_PANE_NAME=
+    herdr pane rename "$HERDR_PANE_ID" --clear >/dev/null 2>&1
+  }
+
+  _herdr_pane_preexec() {
+    case ${1%% *} in
+      claude|codex|nvim|vim|vi) _herdr_pane_clear ;;
+      k9s|btop|htop|top|lazygit|yazi|psql) _herdr_pane_set "${1%% *}" ;;
+      *) _herdr_pane_set "${PWD:t}" ;;
+    esac
+  }
+
+  _herdr_pane_precmd() { _herdr_pane_set "${PWD:t}" }
+
+  add-zsh-hook preexec _herdr_pane_preexec
+  add-zsh-hook precmd _herdr_pane_precmd
+fi
