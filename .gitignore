@@ -1,2 +1,7 @@
 # TPM manages this directory itself; plugins are cloned, not vendored.
 tmux/plugins/
+
+# k9s is deliberately untracked: its per-cluster config.yaml files are machine state
+# that k9s rewrites as you use it, and they carry cluster/namespace names we don't
+# want in a public repo. ~/.config/k9s symlinks here, so the files stay live on disk.
+k9s/
