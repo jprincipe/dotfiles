@@ -26,6 +26,45 @@ opt.hlsearch = true
 opt.incsearch = true
 
 -- Clipboard
+--
+-- On a headless remote box `unnamedplus` is a silent no-op: there's no
+-- DISPLAY/WAYLAND_DISPLAY and no wl-copy/xclip/xsel, so nvim finds no provider and
+-- yanks go nowhere. Nvim's own OSC 52 fallback doesn't kick in either, because it
+-- keys on $SSH_TTY and herdr spawns panes from its persistent server rather than the
+-- sshd login session, so that var isn't in the pane env.
+--
+-- OSC 52 writes the clipboard via a terminal escape, so the text travels
+-- nvim -> herdr -> ssh -> the herdr client and lands on the *client's* clipboard.
+--
+-- Two ordering traps, both of which silently produce a registered-but-unused provider:
+--   1. Do NOT probe with has('clipboard') to decide. That call forces nvim to resolve
+--      the provider immediately and cache the result, so a g.clipboard assigned
+--      afterwards is ignored -- g.clipboard reads back fine while has('clipboard')
+--      stays 0. Detect the environment directly instead.
+--   2. Assign g.clipboard BEFORE opt.clipboard, and clear the cached resolution, in
+--      case something earlier in startup already probed.
+--
+-- Paste deliberately reads the unnamed register rather than querying the terminal:
+-- an OSC 52 read round-trip is slow and widely unsupported, and this keeps `p`
+-- working for anything yanked inside this nvim. Pasting *into* nvim from the client
+-- still goes through the terminal's own paste (cmd+v), not the `+` register.
+local has_native_clipboard = vim.fn.executable("pbcopy") == 1
+  or vim.env.WAYLAND_DISPLAY ~= nil
+  or vim.env.DISPLAY ~= nil
+
+if not has_native_clipboard then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  local unnamed = function()
+    return vim.split(vim.fn.getreg('"'), "\n")
+  end
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+    paste = { ["+"] = unnamed, ["*"] = unnamed },
+  }
+  vim.g.loaded_clipboard_provider = nil -- force re-resolution against the above
+end
+
 opt.clipboard = "unnamedplus"
 
 -- UI
