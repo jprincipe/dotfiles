@@ -16,11 +16,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = desc })
     end
 
+    -- LSP navigation goes through fzf-lua so multiple results land in a picker with
+    -- previews instead of a bare quickfix list. `lsp.jump1` is set in
+    -- plugins/fzf-lua.lua, so a single result still jumps straight there.
+    local fzf = function(picker)
+      return function() require("fzf-lua")[picker]() end
+    end
+
     -- LSP keymaps
-    map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-    map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-    map("n", "gr", vim.lsp.buf.references, "Go to references")
-    map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+    map("n", "gd", fzf("lsp_definitions"), "Go to definition")
+    map("n", "gD", fzf("lsp_declarations"), "Go to declaration")
+    map("n", "gr", fzf("lsp_references"), "Go to references")
+    map("n", "gi", fzf("lsp_implementations"), "Go to implementation")
     map("n", "K", vim.lsp.buf.hover, "Hover documentation")
     map("n", "<leader>cr", vim.lsp.buf.rename, "Rename symbol")
     map("n", "<leader>ca", vim.lsp.buf.code_action, "Code action")
