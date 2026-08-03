@@ -1,0 +1,37 @@
+#!/bin/sh
+# Fuzzy workspace switcher for herdr, run as a `type = "popup"` custom command.
+#
+# herdr's built-in workspace_picker focuses the sidebar; it has no search, and esc
+# only returns focus to the pane -- the sidebar stays expanded, because focusing
+# (WorkspacePicker) and hiding (ToggleSidebar) are separate actions with no way to
+# bind them together. A popup sidesteps that: fzf gives type-to-filter, enter
+# switches, and esc exits the script so herdr tears the popup down completely.
+set -eu
+
+PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export PATH
+
+# Columns: id (hidden from display via --with-nth), status dot, number, label, and
+# the checkout path for worktree workspaces so `ef` and its worktrees are
+# distinguishable when several share a repo_name.
+list=$(herdr workspace list 2>/dev/null | jq -r '
+  .result.workspaces[]
+  | ( if   .agent_status == "working" then "●"
+      elif .agent_status == "blocked" then "▲"
+      elif .agent_status == "idle"    then "○"
+      else "·" end ) as $dot
+  | ( if .worktree then "  \(.worktree.checkout_path)" else "" end ) as $path
+  | "\(.workspace_id)\t\($dot) \(.number). \(.label)\($path)"
+') || exit 0
+[ -n "$list" ] || exit 0
+
+choice=$(printf '%s\n' "$list" |
+  fzf --delimiter='\t' --with-nth=2.. \
+      --reverse --info=inline --border=rounded \
+      --prompt='workspace ❯ ' \
+      --header='↵ switch · esc cancel') || exit 0
+
+id=${choice%%	*}
+[ -n "$id" ] || exit 0
+
+exec herdr workspace focus "$id" >/dev/null

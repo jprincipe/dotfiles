@@ -69,8 +69,8 @@ prefix = "ctrl+space"
 # detach = "prefix+q"
 # reload_config = "prefix+shift+r"
 # open_notification_target = "prefix+o"
-# workspace_picker = "prefix+w"
-goto = "ctrl+b"
+# workspace_picker = "prefix+w"   # sidebar focus; no search, and esc leaves it expanded
+# goto = "prefix+g"
 # new_workspace = "prefix+shift+n"
 # new_worktree = "prefix+shift+g"
 open_worktree = "prefix+shift+o"
@@ -108,12 +108,16 @@ toggle_sidebar = "prefix+b"
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
 # They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
-# navigate_workspace_up = "up"
-# navigate_workspace_down = "down"
-# navigate_pane_left = "h"      # left arrow always focuses the pane to the left
-# navigate_pane_down = "j"
-# navigate_pane_up = "k"
-# navigate_pane_right = "l"     # right arrow always focuses the pane to the right
+# j/k drive the workspace selection instead of the arrows. That means giving up
+# navigate_pane_up/down, which shared those keys -- no loss here, since pane focus
+# goes through the ctrl+hjkl herdr-nav commands below. Pane left/right stay on h/l
+# and the arrows remain hardwired to pane left/right regardless.
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_left = "h"      # left arrow always focuses the pane to the left
+navigate_pane_down = ""
+navigate_pane_up = ""
+navigate_pane_right = "l"     # right arrow always focuses the pane to the right
 
 # Custom commands use the same binding syntax.
 # type = "shell" runs detached in the background.
@@ -127,6 +131,17 @@ toggle_sidebar = "prefix+b"
 # command = "lazygit"
 # width = "80%"
 # height = "80%"
+
+# Fuzzy workspace switcher. Replaces workspace_picker on ctrl+b: that action focuses
+# the sidebar with no search, and esc there only returns focus to the pane, leaving the
+# sidebar expanded (focusing and hiding are separate actions with no combined binding).
+# A popup gives type-to-filter and tears down completely on esc.
+[[keys.command]]
+key = "ctrl+b"
+type = "popup"
+command = "~/.config/herdr/bin/herdr-ws-pick"
+width = "50%"
+height = "40%"
 
 [[keys.command]]
 key = "ctrl+h"
