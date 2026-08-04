@@ -143,25 +143,58 @@ command = "~/.config/herdr/bin/herdr-ws-pick"
 width = "50%"
 height = "40%"
 
+# Seamless nav/resize across herdr panes and Neovim splits, via the
+# herdr-splits plugin. These replace the old herdr-nav shell script: the
+# plugin's own script does the same "is the focused pane running vim?" check,
+# then either forwards the chord or moves herdr focus -- but it additionally
+# unzooms first, because a zoomed pane reports itself at every edge and would
+# otherwise make the edge flags useless.
+#
+# The Neovim half lives in nvim/lua/plugins/herdr-splits.lua and writes the
+# shared settings (edge behaviour, key notation) to the plugin's config dir, so
+# both sides agree. Keep the chords here in sync with the keymaps there.
 [[keys.command]]
 key = "ctrl+h"
-type = "shell"
-command = "~/.config/herdr/bin/herdr-nav left"
+type = "plugin_action"
+command = "herdr-splits.nav-left"
 
 [[keys.command]]
 key = "ctrl+j"
-type = "shell"
-command = "~/.config/herdr/bin/herdr-nav down"
+type = "plugin_action"
+command = "herdr-splits.nav-down"
 
 [[keys.command]]
 key = "ctrl+k"
-type = "shell"
-command = "~/.config/herdr/bin/herdr-nav up"
+type = "plugin_action"
+command = "herdr-splits.nav-up"
 
 [[keys.command]]
 key = "ctrl+l"
-type = "shell"
-command = "~/.config/herdr/bin/herdr-nav right"
+type = "plugin_action"
+command = "herdr-splits.nav-right"
+
+# Resize. New capability -- the old script only navigated. Note the config
+# template's warning that alt+... bindings can depend on the outer terminal, so
+# these are the likeliest of the eight to need adjusting.
+[[keys.command]]
+key = "alt+h"
+type = "plugin_action"
+command = "herdr-splits.resize-left"
+
+[[keys.command]]
+key = "alt+j"
+type = "plugin_action"
+command = "herdr-splits.resize-down"
+
+[[keys.command]]
+key = "alt+k"
+type = "plugin_action"
+command = "herdr-splits.resize-up"
+
+[[keys.command]]
+key = "alt+l"
+type = "plugin_action"
+command = "herdr-splits.resize-right"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.

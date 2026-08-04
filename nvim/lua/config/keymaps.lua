@@ -33,7 +33,7 @@ map("n", "<leader>w=", "<C-w>=", { desc = "Equal window sizes" })
 map("n", "<leader>w|", "<C-w>|", { desc = "Max width" })
 map("n", "<leader>w_", "<C-w>_", { desc = "Max height" })
 
--- Window navigation handled by smart-splits.nvim (tmux-aware)
+-- Window navigation and resizing handled by herdr-splits.nvim (herdr-pane-aware)
 
 -- Exit terminal mode (matches tmux C-y → copy-mode)
 map("t", "<C-y>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

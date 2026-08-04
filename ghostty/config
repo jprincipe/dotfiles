@@ -54,6 +54,8 @@ window-colorspace = "display-p3"
 window-inherit-font-size = false
 window-padding-x = 0
 window-padding-y = 0
+# Split the leftover sub-cell space evenly instead of dumping it bottom/right.
+window-padding-balance = true
 window-title-font-family = "Maple Mono NF"
 mouse-hide-while-typing = true
 
