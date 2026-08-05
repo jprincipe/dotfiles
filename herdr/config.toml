@@ -132,16 +132,28 @@ navigate_pane_right = "l"     # right arrow always focuses the pane to the right
 # width = "80%"
 # height = "80%"
 
-# Fuzzy workspace switcher. Replaces workspace_picker on ctrl+b: that action focuses
-# the sidebar with no search, and esc there only returns focus to the pane, leaving the
-# sidebar expanded (focusing and hiding are separate actions with no combined binding).
-# A popup gives type-to-filter and tears down completely on esc.
+# Overlay pickers from the herdr-jump plugin, replacing the local herdr-ws-pick
+# fzf script. Both give type-to-filter (`/`), j/k, 1-9 direct jump, and restore
+# the previous focus on dismiss -- which is what the built-in workspace_picker
+# couldn't do (it focuses the sidebar, and esc there leaves it expanded).
+#
+# Status dots are colour-coded by state (green idle, yellow working, red blocked,
+# teal done) but NOT animated -- herdr's sidebar spinner isn't exposed to plugins.
+#
+# spaces = the workspace list that used to be on ctrl+b.
 [[keys.command]]
 key = "ctrl+b"
-type = "popup"
-command = "~/.config/herdr/bin/herdr-ws-pick"
-width = "50%"
-height = "40%"
+type = "plugin_action"
+command = "agustinvalencia.herdr-jump.spaces"
+
+# agents = every detected agent as a card grouped by space. Usually the more
+# useful of the two: it answers "which agent needs me" directly rather than
+# leaving you to infer it from a workspace list. On the prefix rather than a
+# direct ctrl+letter because ctrl+a is readline's beginning-of-line.
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "agustinvalencia.herdr-jump.agents"
 
 # Seamless nav/resize across herdr panes and Neovim splits, via the
 # herdr-splits plugin. These replace the old herdr-nav shell script: the
@@ -220,6 +232,9 @@ directory = "~/dev"
 # sidebar_start_collapsed = false
 
 # Collapsed sidebar presentation: "compact" keeps the narrow status rail, "hidden" uses zero width.
+# "hidden" -- the compact rail didn't earn its columns. Which workspace is active is
+# instead encoded in the first tab's label per workspace, since tab labels are the only
+# text herdr renders in the tab bar (no status-line or format-string option exists).
 sidebar_collapsed_mode = "hidden"
 
 # Terminal width at or below which Herdr uses the mobile single-column layout.

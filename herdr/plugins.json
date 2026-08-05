@@ -1,5 +1,73 @@
 [
   {
+    "plugin_id": "agustinvalencia.herdr-jump",
+    "name": "Herdr Jump",
+    "version": "0.2.0",
+    "min_herdr_version": "0.7.0",
+    "description": "Separate overlay pickers for herdr spaces and agents. Two pop-ups: one lists your spaces (workspaces), one lists your agents with live status colours — pick to jump. Unlike the combined session navigator, agents and spaces are browsed independently.",
+    "manifest_path": "/home/jp/dev/dotfiles/herdr/plugins/github/agustinvalencia.herdr-jump-f92d49d2b2c1/herdr-plugin.toml",
+    "plugin_root": "/home/jp/dev/dotfiles/herdr/plugins/github/agustinvalencia.herdr-jump-f92d49d2b2c1",
+    "enabled": true,
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "build": [
+      {
+        "command": [
+          "sh",
+          "scripts/build.sh"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "agents",
+        "title": "Herdr Jump: Agents",
+        "command": [
+          "./bin/herdr-jump",
+          "agents"
+        ]
+      },
+      {
+        "id": "spaces",
+        "title": "Herdr Jump: Spaces",
+        "command": [
+          "./bin/herdr-jump",
+          "spaces"
+        ]
+      }
+    ],
+    "panes": [
+      {
+        "id": "agents-picker",
+        "title": "Agents",
+        "placement": "overlay",
+        "command": [
+          "./bin/herdr-jump",
+          "agents-ui"
+        ]
+      },
+      {
+        "id": "spaces-picker",
+        "title": "Spaces",
+        "placement": "overlay",
+        "command": [
+          "./bin/herdr-jump",
+          "spaces-ui"
+        ]
+      }
+    ],
+    "source": {
+      "kind": "github",
+      "owner": "agustinvalencia",
+      "repo": "herdr-jump",
+      "resolved_commit": "869a431edf56538973626f5a1ec4cc2e89e96238",
+      "managed_path": "/home/jp/.config/herdr/plugins/github/agustinvalencia.herdr-jump-f92d49d2b2c1",
+      "installed_unix_ms": 1785812091315
+    }
+  },
+  {
     "plugin_id": "herdr-splits",
     "name": "Herdr Splits",
     "version": "0.5.2",

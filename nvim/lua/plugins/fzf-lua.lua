@@ -39,11 +39,16 @@ return {
         -- preview to the right when the window is wide and below when it is narrow.
 
         on_create = function(e)
-          -- No <C-h/j/k/l> shadowing needed here. fzf runs in a *terminal* buffer, so
-          -- global terminal-mode mappings apply inside the picker, and smart-splits
-          -- used to map those four in mode "t" -- swallowing fzf's own <C-j>/<C-k>
-          -- list navigation. herdr-splits replaced it with normal-mode-only maps, so
-          -- nothing intercepts them anymore.
+          -- fzf runs in a *terminal* buffer, so global terminal-mode mappings apply
+          -- inside the picker. herdr-splits maps <C-h/j/k/l> in mode "t" (it has to,
+          -- or navigation dies inside Neovim's own :terminal), which otherwise
+          -- swallows fzf's own <C-j>/<C-k> list navigation and ejects the cursor out
+          -- of the float. Shadow those four buffer-locally so the keys reach fzf
+          -- instead. (mini.pick never hit this: it read keys itself rather than
+          -- running in a terminal.)
+          for _, key in ipairs({ "<C-h>", "<C-j>", "<C-k>", "<C-l>" }) do
+            vim.keymap.set("t", key, key, { buffer = e.bufnr, noremap = true, nowait = true })
+          end
 
           -- Switching away to another herdr pane and back drops the terminal buffer
           -- into normal mode, so keystrokes silently stop reaching fzf with no visible

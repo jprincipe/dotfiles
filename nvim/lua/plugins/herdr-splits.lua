@@ -26,16 +26,21 @@ return {
     auto_sync_herdr = true,
   },
   keys = {
-    -- Normal mode only, deliberately. smart-splits mapped these in mode "t" as
-    -- well, which swallowed fzf-lua's <C-j>/<C-k> inside its terminal-buffer
-    -- picker and needed a buffer-local shadow to undo. herdr panes are not
-    -- Neovim terminal buffers, so terminal mode buys nothing here.
-    { "<C-h>", function() require("herdr-splits").move_cursor_left() end, desc = "Move to left pane" },
-    { "<C-j>", function() require("herdr-splits").move_cursor_down() end, desc = "Move to lower pane" },
-    { "<C-k>", function() require("herdr-splits").move_cursor_up() end, desc = "Move to upper pane" },
-    { "<C-l>", function() require("herdr-splits").move_cursor_right() end, desc = "Move to right pane" },
+    -- Terminal mode as well as normal: without it, navigation dies inside
+    -- Neovim's own `:terminal` buffers (see the <C-/> toggle in config/keymaps),
+    -- because the keys fall through to the shell instead of the plugin.
+    -- The cost is that fzf-lua's picker runs in a terminal buffer too, so these
+    -- would swallow its <C-j>/<C-k> list navigation -- undone buffer-locally in
+    -- plugins/fzf-lua.lua's on_create.
+    { "<C-h>", function() require("herdr-splits").move_cursor_left() end, mode = { "n", "t" }, desc = "Move to left pane" },
+    { "<C-j>", function() require("herdr-splits").move_cursor_down() end, mode = { "n", "t" }, desc = "Move to lower pane" },
+    { "<C-k>", function() require("herdr-splits").move_cursor_up() end, mode = { "n", "t" }, desc = "Move to upper pane" },
+    { "<C-l>", function() require("herdr-splits").move_cursor_right() end, mode = { "n", "t" }, desc = "Move to right pane" },
 
     -- New capability; smart-splits' resizing was never wired up here.
+    -- Normal mode only on purpose, unlike the nav keys above: alt+hjkl are live
+    -- bindings in plenty of terminal programs (readline word motions, etc.), so
+    -- claiming them in terminal mode would break more than it enables.
     { "<M-h>", function() require("herdr-splits").resize_left() end, desc = "Resize pane left" },
     { "<M-j>", function() require("herdr-splits").resize_down() end, desc = "Resize pane down" },
     { "<M-k>", function() require("herdr-splits").resize_up() end, desc = "Resize pane up" },
