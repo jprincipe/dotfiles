@@ -8,7 +8,7 @@ format = "$hostname$directory$git_branch$time$character"
 [hostname]
 ssh_only = false            # always show, not just over SSH
 format = "[󰒋 $hostname]($style) "
-style = "bold #9ccfd8"      # Rose Pine foam
+style = "bold #8fbcbb"      # Nord teal, matches the tmux hostname pill
 trim_at = "."               # drop any domain suffix (short name only)
 
 [time]
@@ -16,27 +16,27 @@ disabled = false
 format = "[$time]($style) "
 time_format = "%R"
 utc_time_offset = "local"
-style = "bold #6e6a86"
+style = "bold #60728a"
 
 [character]
-error_symbol = "[✗](bold #eb6f92)"
-success_symbol = "[❯](bold #31748f)[❯](bold #9ccfd8)[❯](bold #c4a7e7)"
+error_symbol = "[✗](bold #bf616a)"
+success_symbol = "[❯](bold #a3be8c)[❯](bold #81a1c1)[❯](bold #b48ead)"
 
 [directory]
 truncation_length = 2
 truncation_symbol = "…/"
-style = "#9ccfd8"
-repo_root_style = "bold #31748f"
+style = "#81a1c1"
+repo_root_style = "bold #a3be8c"
 repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
 format = " [$branch]($style) "
-style = "bold #f6c177"
+style = "bold #ebcb8b"
 
 [kubernetes]
 disabled = false
 format = "󱃾 [$context]($style) "
-style = "bold #ebbcba"
+style = "bold #d08770"
 
 # add_newline = true
 # continuation_prompt = "[▸▹ ](dimmed white)"
