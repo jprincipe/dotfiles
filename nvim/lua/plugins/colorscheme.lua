@@ -123,16 +123,34 @@ return
 --   end,
 -- }
 -- dracula
+-- {
+--   "Mofiqul/dracula.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("dracula").setup({
+--       transparent_bg = false,
+--       italic_comment = true,
+--     })
+--     vim.cmd.colorscheme("dracula")
+--   end,
+-- }
+-- rose-pine
 {
-  "Mofiqul/dracula.nvim",
+  "rose-pine/neovim",
+  name = "rose-pine",
   lazy = false,
   priority = 1000,
   config = function()
-    require("dracula").setup({
-      transparent_bg = false,
-      italic_comment = true,
+    require("rose-pine").setup({
+      variant = "main", -- main, moon, dawn
+      dark_variant = "main",
+      styles = {
+        transparency = false,
+        italic = true,
+      },
     })
-    vim.cmd.colorscheme("dracula")
+    vim.cmd.colorscheme("rose-pine")
   end,
 }
 -- monokai-pro
