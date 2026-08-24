@@ -30,46 +30,46 @@ return
 -- }
 -- nightfox (nordfox variant)
 -- wallpapers: https://github.com/linuxdotexe/nordic-wallpapers
-{
-  "EdenEast/nightfox.nvim",
-  lazy = false,
-  priority = 1000, -- make sure to load this before all the other start plugins
-  config = function()
-    require("nightfox").setup({
-      options = {
-        transparent = false,
-        dim_inactive = false, -- nvim dimming is handled by the vimade plugin instead
-                              -- (it also fades the whole editor on tmux focus loss,
-                              -- which dim_inactive can't — it never dims the current win)
-        styles = {
-          comments = "italic",
-          conditionals = "NONE",
-          constants = "NONE",
-          functions = "NONE",
-          keywords = "italic",
-          numbers = "NONE",
-          operators = "NONE",
-          strings = "NONE",
-          types = "italic",
-          variables = "NONE",
-        },
-        modules = {
-          diagnostic = {
-            enable = true,
-            background = true,
-          },
-        },
-      },
-    })
-    vim.cmd.colorscheme("nordfox")
-    -- Quiet, single-color separator matching the tmux inactive-pane border grey
-    -- (#3B4252) — just a delineator, the same for every split. Coloring only the
-    -- ACTIVE split's border needs neighbour bookkeeping: nvim draws a window's
-    -- separators on its right/bottom edges, so the dividers left of and above a
-    -- window are owned by its neighbours, not by it. Tried and removed.
-    vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#3B4252" })
-  end,
-}
+-- {
+--   "EdenEast/nightfox.nvim",
+--   lazy = false,
+--   priority = 1000, -- make sure to load this before all the other start plugins
+--   config = function()
+--     require("nightfox").setup({
+--       options = {
+--         transparent = false,
+--         dim_inactive = false, -- nvim dimming is handled by the vimade plugin instead
+--                               -- (it also fades the whole editor on tmux focus loss,
+--                               -- which dim_inactive can't — it never dims the current win)
+--         styles = {
+--           comments = "italic",
+--           conditionals = "NONE",
+--           constants = "NONE",
+--           functions = "NONE",
+--           keywords = "italic",
+--           numbers = "NONE",
+--           operators = "NONE",
+--           strings = "NONE",
+--           types = "italic",
+--           variables = "NONE",
+--         },
+--         modules = {
+--           diagnostic = {
+--             enable = true,
+--             background = true,
+--           },
+--         },
+--       },
+--     })
+--     vim.cmd.colorscheme("nordfox")
+--     -- Quiet, single-color separator matching the tmux inactive-pane border grey
+--     -- (#3B4252) — just a delineator, the same for every split. Coloring only the
+--     -- ACTIVE split's border needs neighbour bookkeeping: nvim draws a window's
+--     -- separators on its right/bottom edges, so the dividers left of and above a
+--     -- window are owned by its neighbours, not by it. Tried and removed.
+--     vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#3B4252" })
+--   end,
+-- }
 -- everforest
 -- {
 --   "neanias/everforest-nvim",
@@ -93,35 +93,35 @@ return
 --   end,
 -- }
 -- catppuccin
--- {
---   "catppuccin/nvim",
---   name = "catppuccin",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     require("catppuccin").setup({
---       flavour = "latte", -- latte, frappe, macchiato, mocha
---       transparent_background = true, -- disables setting the background color
---       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
---         comments = { "italic" }, -- Change the style of comments
---         conditionals = { "italic" },
---         loops = {},
---         functions = {},
---         keywords = { "italic" },
---         strings = {},
---         variables = {},
---         numbers = {},
---         booleans = {},
---         properties = {},
---         types = {},
---         operators = {},
---         -- miscs = {}, -- Uncomment to turn off hard-coded styles
---       },
---     })
---
---     vim.cmd.colorscheme("catppuccin-latte")
---   end,
--- }
+{
+  "catppuccin/nvim",
+  name = "catppuccin",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require("catppuccin").setup({
+      flavour = "frappe", -- latte, frappe, macchiato, mocha
+      transparent_background = false, -- disables setting the background color
+      styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" }, -- Change the style of comments
+        conditionals = { "italic" },
+        loops = {},
+        functions = {},
+        keywords = { "italic" },
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+        -- miscs = {}, -- Uncomment to turn off hard-coded styles
+      },
+    })
+
+    vim.cmd.colorscheme("catppuccin-frappe")
+  end,
+}
 -- monokai-pro
 -- {
 --   "loctvl842/monokai-pro.nvim",

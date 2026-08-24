@@ -1,10 +1,11 @@
 # themes
-theme = "nordic"
+theme = "catppuccin-frappe"
+# theme = "nordic"
 # theme = "kanagawa"
 # background = "#2A2A37"
 # theme = everforest-dark
-selection-background = #81A1C1
-selection-foreground = #2e3440
+selection-background = #8caaee
+selection-foreground = #303446
 # background-opacity = 0.95
 # background-blur-radius = 10
 # alpha-blending = linear-corrected
@@ -75,7 +76,7 @@ keybind = shift+enter=text:\n
 
 # cursor settings
 cursor-style = block
-cursor-color = #EBCB8B
+cursor-color = #e5c890
 cursor-opacity = 1.0
 cursor-invert-fg-bg = false
 

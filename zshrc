@@ -87,7 +87,8 @@ export PATH="$HOME/.local/bin:$PATH"
 ######################################
 # herdr pane names
 ######################################
-if [[ -n $HERDR_PANE_ID ]] && command -v herdr >/dev/null 2>&1; then
+# -z $NVIM: shells in nvim's :terminal inherit HERDR_PANE_ID and would rename nvim's pane
+if [[ -n $HERDR_PANE_ID && -z $NVIM ]] && command -v herdr >/dev/null 2>&1; then
   autoload -Uz add-zsh-hook
 
   _herdr_pane_set() {
