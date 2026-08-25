@@ -80,7 +80,7 @@ cursor-opacity = 1.0
 cursor-invert-fg-bg = false
 
 # shaders
-custom-shader-animation = always
+custom-shader-animation = true
 # custom-shader=./shaders/cursor_sweep.glsl
 # NOTE: `custom-shader` is a repeatable key -- every uncommented line stacks, so
 # leaving two enabled runs both effects at once.
